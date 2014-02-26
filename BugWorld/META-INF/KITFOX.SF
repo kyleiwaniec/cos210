@@ -1,0 +1,605 @@
+Signature-Version: 1.0
+SHA-256-Digest-Manifest-Main-Attributes: jJ5rPFm+aURN2L9aIQ2n5x86AGFgM
+ +faU8W3GPQNcrE=
+SHA-256-Digest-Manifest: rLeSfMJF/JbDsuMsxBezEbvS8H45ZxTmNPWiZ5Cvf8I=
+Created-By: 1.7.0_07 (Oracle Corporation)
+
+Name: com/kitfox/svg/pathcmd/PathCommand.class
+SHA-256-Digest: WiqCxxMOno4BvU/8KTK/nWgE+fJflW+f7ZHWmHVlow0=
+
+Name: com/kitfox/svg/SVGLoader.class
+SHA-256-Digest: hAHireL19ZPx/WCPOnRHJEboqwz5MnW+pTAfippAngM=
+
+Name: com/kitfox/svg/SVGDisplayPanel.class
+SHA-256-Digest: v77oU14yWjWN0L7NwIRaEx2YwfDUlsK6b4NRhhS0lg8=
+
+Name: help/about/about.html
+SHA-256-Digest: or527uq9vVADEJeTBad1YKxCw/OKPCM5lPWSn0POV7s=
+
+Name: com/kitfox/svg/xml/StyleSheet.class
+SHA-256-Digest: DSXOMVFeZAnQMrWRAN0/m0uC7tK1gpVU4/s9gFYo2Aw=
+
+Name: com/kitfox/svg/app/PlayerDialog$5.class
+SHA-256-Digest: aGtEYFmfFW2Fk3zmIlZYHdQS72Ti/K+zdih4XlABKno=
+
+Name: com/kitfox/svg/app/SVGPlayer$8.class
+SHA-256-Digest: 3zsCvSk8SbS95eMi2lMZ95IAuOfVn1XcrynM31BZbr4=
+
+Name: com/kitfox/svg/pathcmd/PathUtil.class
+SHA-256-Digest: p8NcnCObbLRze+6ig9Csq7wUydWVaxZDRQDtpizLW4M=
+
+Name: com/kitfox/svg/animation/AnimateColorIface.class
+SHA-256-Digest: uNtbs4ntMshpFHQOI7SLOKtOf4c47E9tvZkbdfiSX2k=
+
+Name: com/kitfox/svg/pathcmd/CubicSmooth.class
+SHA-256-Digest: Anb5+vqw8V7lvMAoqXaMM5awnzu/5zYyfFzSxj7+j1g=
+
+Name: com/kitfox/svg/batik/MultipleGradientPaint$CycleMethodEnum.class
+SHA-256-Digest: D4eP2DC3VZov/jfiGU4Nr4dfZNrDRZuSzV0EIP0C4W4=
+
+Name: com/kitfox/svg/xml/cpx/CPXOutputStream.class
+SHA-256-Digest: orE8VKaGOvdpTz/mgrMoBerZ+4tpcLCL9CjXDnMbhiA=
+
+Name: com/kitfox/svg/app/SVGViewer$4.class
+SHA-256-Digest: 3YnkBHK1Qn15/oFyB7un7C5K+iUHLJZtOnQr4kZp0yo=
+
+Name: com/kitfox/svg/animation/AnimateColor.class
+SHA-256-Digest: uJ+pQz2nTVtipE1D3lNimhc2olQgBP8OK8NB9nliYSk=
+
+Name: com/kitfox/svg/batik/GraphicsUtil.class
+SHA-256-Digest: gGtRuY8XykRvjDbdpO6r3xA2FmJG3N6yR72CR8sq0K4=
+
+Name: com/kitfox/svg/animation/AnimateTransform.class
+SHA-256-Digest: /au0xi/QM34j8PXUAlaRgf7erVPDNNtaQiv/IzeoweM=
+
+Name: com/kitfox/svg/app/VersionDialog$1.class
+SHA-256-Digest: HOx7KlNTiG1NXty8SHgZM76B58KjypHa8+vnubZ8jNQ=
+
+Name: com/kitfox/svg/Ellipse.class
+SHA-256-Digest: fu+5bGEv/FF3aSpcd7iCnLMbPZUTkxQyuomzPoqXxRs=
+
+Name: com/kitfox/svg/app/PlayerDialog$1.class
+SHA-256-Digest: SECZLfTd1prKqJ+wzSdD/ZUWfycbN+wN6FF5pC1T494=
+
+Name: com/kitfox/svg/app/SVGPlayer$7.class
+SHA-256-Digest: mO4V9jGtJzqMtzo9oDSp/i2qCIUY81fr/qKYqqNF7P4=
+
+Name: com/kitfox/svg/xml/cpx/CPXTest.class
+SHA-256-Digest: bR/UQMvlvI+DhscctK5PIzjvL5j8RJZ02570/IKFM1M=
+
+Name: com/kitfox/svg/pathcmd/Quadratic.class
+SHA-256-Digest: zcyN/Xpt7RcDFVO49GDX15r1do4MUsMn0disgU5S0iA=
+
+Name: com/kitfox/svg/app/data/HandlerFactory.class
+SHA-256-Digest: Xk/gpqicIqM0ImIOybTnAf2tLv6rVCclXmNXWBVCxec=
+
+Name: com/kitfox/svg/animation/parser/ASTNumber.class
+SHA-256-Digest: TN6WjMszLaIOHOTwGmzhIx24ejJ1CPNPww8inGIsE5U=
+
+Name: com/kitfox/svg/Title.class
+SHA-256-Digest: 2VGL8qL7sDnKnJWNIHQ4FtrhnZjp9/mVv2dZnq3i7OM=
+
+Name: com/kitfox/svg/FeSpotLight.class
+SHA-256-Digest: gRgDFFGrCpTyGry5cFPhSO0kBOE77OKMylC7uZs7Hj4=
+
+Name: com/kitfox/svg/animation/AnimateMotion.class
+SHA-256-Digest: Wj0+oY8xpr8A5WLKWn1BWXUfXj+PYiwWzymazZ1f5yg=
+
+Name: com/kitfox/svg/app/PlayerDialog$9.class
+SHA-256-Digest: qaGfTTlxURsMHnc8fUOzHULGExLLF5tp0LICitIcw+k=
+
+Name: com/kitfox/svg/ShapeElement.class
+SHA-256-Digest: 37kjXsl7kcfC44uvovQVk8EfD+Icu6Mfeb9JjlFlRvk=
+
+Name: com/kitfox/svg/app/SVGPlayer$3.class
+SHA-256-Digest: BP9pRBc8DhO1xhUcQ0jh0T4RJmECtHLM70t0sGvubtY=
+
+Name: com/kitfox/svg/app/SVGPlayer$1.class
+SHA-256-Digest: 5+X7o8MhFlNyodT7fZrJ7i7x2vBzBuSvV1Rab9pc0fc=
+
+Name: com/kitfox/svg/app/SVGViewer$2.class
+SHA-256-Digest: 1B5dYUFUpjaio4RcJujOIDwwee2HOtdkXC3HIJCWu0o=
+
+Name: com/kitfox/svg/app/ant/SVGToImageAntTask.class
+SHA-256-Digest: tPnz0UoNnAJEbv85yOjagisSjYiuWEhnUUl3hlIuPjQ=
+
+Name: com/kitfox/svg/pathcmd/BuildHistory.class
+SHA-256-Digest: ekOEMCR7QFnKKPM33V1wULes5dduZlxF7CEB1lF4UXc=
+
+Name: com/kitfox/svg/Filter.class
+SHA-256-Digest: rd/+SpOuCHf9GMdCwSgp1RKJ0mIsJqIYYNbq2vlfqps=
+
+Name: com/kitfox/svg/Polygon.class
+SHA-256-Digest: K+DSp3TrsuYY362NBuLxq3+rA19uKfwOBENMS/kaH+4=
+
+Name: com/kitfox/svg/app/MainFrame$4.class
+SHA-256-Digest: fHjxUy4afg3GebtSVIIkA0UOJ3q+7MZwDMwzHfKhHig=
+
+Name: com/kitfox/svg/pathcmd/Vertical.class
+SHA-256-Digest: MRDpqGdRbHTJeuonEOWZNg3qvRgi1Ha7rUMsVJagsos=
+
+Name: com/kitfox/svg/animation/TimeIndefinite.class
+SHA-256-Digest: q3MAcoi4Jqrcsj8H/B9khj4iNwV8hX0N9Q5d5P/mr5s=
+
+Name: com/kitfox/svg/animation/parser/AnimTimeParser$1.class
+SHA-256-Digest: dpsq/Sntp8LwNoVJo3i5HitfYX1XZ3xXxojMBV+5kHs=
+
+Name: com/kitfox/svg/Stop.class
+SHA-256-Digest: fUjEYNqJYynuf57sug5yedMEY40GO64cTVO+zuMgJiY=
+
+Name: com/kitfox/svg/Metadata.class
+SHA-256-Digest: Vwfe40pYQ9gxS8fM+CNenGBQr0LQwyM3d6DW48rxytc=
+
+Name: com/kitfox/svg/app/SVGViewer$7.class
+SHA-256-Digest: Gnryl4FgJ8Ngae8+SheTVGagO66ndNWE90U8YVeEkxM=
+
+Name: com/kitfox/svg/FontFace.class
+SHA-256-Digest: YFMkg6KJmP5ACLUYhTLDFEAsOjV30qGfoSQSB73w59o=
+
+Name: com/kitfox/svg/animation/SetSmil.class
+SHA-256-Digest: SBLaqXTAntFQkcZ5LwCVQMPYeH3rFvoUD0HufGgpLyg=
+
+Name: com/kitfox/svg/MissingGlyph.class
+SHA-256-Digest: uwT4t+a1BGhMQBB5p4CGsNMN51qhVR56hxaBfTF0cK8=
+
+Name: com/kitfox/svg/app/beans/ProportionalLayoutPanel.class
+SHA-256-Digest: YK+PYldau3Smj6uVzezwvLyHcnxyA4aCjO6Wa/011KA=
+
+Name: com/kitfox/svg/pathcmd/Terminal.class
+SHA-256-Digest: n6FBBr83tPRn/1Bp74xlIoxGQlot+amToB8kHxMNmBY=
+
+Name: com/kitfox/svg/SVGElementException.class
+SHA-256-Digest: a5fmzAvSfGxMGyOucANc0LfWaVky85ji778kfz0CN7I=
+
+Name: com/kitfox/svg/animation/parser/ASTLookupTime.class
+SHA-256-Digest: UkQ0lFKYaWV2Gjj8aU0q7biOBZAohDgR5HxlIC/f+TM=
+
+Name: com/kitfox/svg/batik/RadialGradientPaintContext.class
+SHA-256-Digest: PtvB5nkZ53LD3+o5fY50qSmaPvLN5kqKR2oBdI9z/Bo=
+
+Name: com/kitfox/svg/animation/parser/ASTIndefiniteTime.class
+SHA-256-Digest: UZpIxfxc6z6UPEGpzkmD8VF+KKRmGppGAvn+PVmNYoo=
+
+Name: com/kitfox/svg/app/PlayerDialog$2.class
+SHA-256-Digest: S1w6nDxk6eVvPeKojOvRqvBq7HnPQP02qVngSt54Wb4=
+
+Name: com/kitfox/svg/Circle.class
+SHA-256-Digest: Ct+0GoIaBtEPo4qO6P+u1ELSiNLpbcGgF9LKNiU2s+I=
+
+Name: com/kitfox/svg/app/beans/ProportionalLayoutPanel$1.class
+SHA-256-Digest: T6kZmFKPqOQCVIssWaJXv0nP3nxHuDea8bR+wPQddFk=
+
+Name: com/kitfox/svg/app/MainFrame.class
+SHA-256-Digest: sk4AgtRbYZVEYdjaolO2fEC7iSi1UT/SMB9vJjpULQg=
+
+Name: com/kitfox/svg/animation/AnimateBase.class
+SHA-256-Digest: XJI4hmQw8dMWA9jbEXj1lCYdC5EBibhWTxfIsGOorKc=
+
+Name: com/kitfox/svg/xml/Base64InputStream.class
+SHA-256-Digest: R7j2q7M9jVZ+jwAFBPem5Grj2L5pCsEVmk0+pZ8vGOw=
+
+Name: com/kitfox/svg/animation/parser/AnimTimeParserTreeConstants.clas
+ s
+SHA-256-Digest: mlkN+AbiGhDlT0mYwTZE9fpNr6KgRZ7iYpfYf84td1g=
+
+Name: com/kitfox/svg/animation/TrackPath.class
+SHA-256-Digest: 082NjohB4qHdtw2KbaKiCtIvOcs8zx/C7/dWz9btf+o=
+
+Name: com/kitfox/svg/Polyline.class
+SHA-256-Digest: pN5uEun9P9umeBwqH0siMr0oiBjeAHgrQocer4mxCuo=
+
+Name: com/kitfox/svg/animation/parser/ParseException.class
+SHA-256-Digest: 6bQup/1lk4+VY052jmRwQjgKMumkbKl8wN5ywzP9gww=
+
+Name: com/kitfox/svg/RadialGradient.class
+SHA-256-Digest: g/757D2Iu/n1ifBeHRC+hiMFS6REl6W7h8bhMVmwTsM=
+
+Name: com/kitfox/svg/xml/ReadableXMLElement.class
+SHA-256-Digest: eFrWtwRijjImf9udn8czLJaX9WnsmV4jhi6QsqxjPYc=
+
+Name: com/kitfox/svg/pathcmd/Arc.class
+SHA-256-Digest: IfDzNpxNN+C/jMTGaeAXLRctnfNFppQ0it68pE1CI9Y=
+
+Name: com/kitfox/svg/app/PlayerDialog.class
+SHA-256-Digest: 9HdfwO+B9alQlJLLrGAZxVY2+D0B0uWCF1TWvy7flQw=
+
+Name: com/kitfox/svg/SVGDisplayPanel$1.class
+SHA-256-Digest: tAuwJWH3vTAsCO6n4se4ax4/Z2ZOtCZJzUXm8SRvhdk=
+
+Name: com/kitfox/svg/xml/StyleSheetRule.class
+SHA-256-Digest: HHcMBg5QRtpMdDyt0VOn8+j87aiB5aZH6jaNKsEmK0s=
+
+Name: com/kitfox/svg/animation/AnimationTimeEval.class
+SHA-256-Digest: U8G+5J75IALdskWGnc1mC9kurk7nnR1uRVesVwvDiWQ=
+
+Name: com/kitfox/svg/pathcmd/QuadraticSmooth.class
+SHA-256-Digest: 6AIJlKtP1GB4/N0aqeueyvY38jgVzLx6GnjsD1fBy1c=
+
+Name: com/kitfox/svg/animation/TrackManager$TrackKey.class
+SHA-256-Digest: tQGTWMUx7Nc076o+AvLqwsQFFEaxGs2O8/RJgnx+XFY=
+
+Name: com/kitfox/svg/app/SVGViewer$6.class
+SHA-256-Digest: VVafW6nQm/xbyUYGzKCUBd+dwZJWWe9rFC1gi7QW4d4=
+
+Name: com/kitfox/svg/animation/parser/SimpleCharStream.class
+SHA-256-Digest: jnYyqm7IN5Z6rLuoS9klr8CwFIJMbeg7FivSg5a1WSo=
+
+Name: com/kitfox/svg/package-info.class
+SHA-256-Digest: NQabsCQ820dSixCjKisv5HVN1v0F72ilUkA9LAZ357A=
+
+Name: com/kitfox/svg/app/PlayerDialog$8.class
+SHA-256-Digest: jandh+wZImSn89mN35pzU1mr48D1NWFeVOvM86zE5pQ=
+
+Name: com/kitfox/svg/animation/parser/ASTLiteralTime.class
+SHA-256-Digest: R5bMNSy12047KCZYlQO/OLWhc9NPMragMKxztOVYZVw=
+
+Name: com/kitfox/svg/xml/ColorTable.class
+SHA-256-Digest: CupoGs6syydmAze7JE7PPnGB0MgYWUADRI2ryUiAUOU=
+
+Name: com/kitfox/svg/pattern/PatternPaintContext.class
+SHA-256-Digest: Y5nI5d8YflS+oamAvyM0xERyciF+dyJ86n//AivNv9c=
+
+Name: com/kitfox/svg/app/SVGPlayer$9.class
+SHA-256-Digest: tHs6VVKkDsM8rYSBH6GMC3mfPwk9E+Kg6LoR25qCL4A=
+
+Name: com/kitfox/svg/animation/parser/AnimTimeParserTokenManager.class
+SHA-256-Digest: zaDLAuROy/WfLeROFjQPfg/T4AznxKzPqesKG9S80+k=
+
+Name: com/kitfox/svg/app/SVGViewer$5.class
+SHA-256-Digest: vbsPWCfftDLbVnt6Vum/5FxyJ1jcIk5m6EsRMF9pmL8=
+
+Name: com/kitfox/svg/Marker.class
+SHA-256-Digest: jan+rfSUqfSTAWQ+uBDwHOd+uOiaBwVVK02UZ7Uy3Hg=
+
+Name: com/kitfox/svg/app/VersionDialog.class
+SHA-256-Digest: S1ykF0NxfC/XeNIpL53spAFkuLSUK55GHejJXmTtCMY=
+
+Name: com/kitfox/svg/app/data/Handler$Connection.class
+SHA-256-Digest: gDaPuRe+4sZRlHSipnIxBFAihiiUjPSHY4ZGJaWcI28=
+
+Name: com/kitfox/svg/Tspan.class
+SHA-256-Digest: hw43ZsXINbBf+uXZEDsgAUd8a+TCrzV6xMskdCjAroY=
+
+Name: com/kitfox/svg/Defs.class
+SHA-256-Digest: Tkn2b9nr9ZlEvF3CGcQWT42TUnw/au14XeXsJcEhqWE=
+
+Name: com/kitfox/svg/app/SVGPlayer$4.class
+SHA-256-Digest: ddnNwxajitH44X1MLZM6hYLr+B/SChD47dNiXzJf8MU=
+
+Name: com/kitfox/svg/animation/parser/JJTAnimTimeParserState.class
+SHA-256-Digest: qmM6EaDuTQ8UWlZVyi0Uz/qnVh+ry4ttPoHvrkZqSXo=
+
+Name: com/kitfox/svg/SVGRoot.class
+SHA-256-Digest: vdA3jSxCtbOpetpVu3IbA5josJYEuD+LmpZGtaFOzJ8=
+
+Name: com/kitfox/svg/pathcmd/Cubic.class
+SHA-256-Digest: ChCnjgVB5vSkTWl+o+7+jqAH7GpGUWWHHyTlhbAZe8s=
+
+Name: com/kitfox/svg/animation/parser/Node.class
+SHA-256-Digest: 7gB7p4zXDxaX6nZsy0xzywOIwLGSNFNhQYw94GwCe7E=
+
+Name: com/kitfox/svg/LinearGradient.class
+SHA-256-Digest: jzE411ja3oJhKIfjyJ2inImfKP2L3ecliCciCkU4Awg=
+
+Name: com/kitfox/svg/animation/parser/AnimTimeParser$JJCalls.class
+SHA-256-Digest: zvZ3aTzgJTiDYBOkbpyarIo59kDHCJwG9nIVrF5VqlM=
+
+Name: com/kitfox/svg/batik/LinearGradientPaintContext.class
+SHA-256-Digest: Vwhw8Uw5XX1YYae4zkMOriIeXv4JMOyPRd2aZxuv4OU=
+
+Name: com/kitfox/svg/app/PlayerDialog$6.class
+SHA-256-Digest: fczXli6tmoxn50+kdIcB8QFkLhiOlLh64sx5TQ/tsuY=
+
+Name: com/kitfox/svg/SVGUniverse$1.class
+SHA-256-Digest: k1Hp5TygoRnCVVewrNMXuF217/lEi1Is8HFHnppeK74=
+
+Name: com/kitfox/svg/SVGParseException.class
+SHA-256-Digest: Cuj217J6n56u81UwjkyblbMG22sqOStFFSIqCVnXNko=
+
+Name: icons/SVGUniverseIcon_16c.png
+SHA-256-Digest: g94YjqHpopmQSDZmqJ5ZgCnn7Qrcpysz4qTuKAmRPHQ=
+
+Name: com/kitfox/svg/FeDistantLight.class
+SHA-256-Digest: Es3aJ2fNgxkCikla3fRr0CIv6k+9bsf6UDNTcEpVbq8=
+
+Name: com/kitfox/svg/app/MainFrame$1.class
+SHA-256-Digest: KNvvhAPeChzoRM0Ltj2DPfZBp1FjiWj4iubTgXWxzK0=
+
+Name: com/kitfox/svg/app/SVGPlayer$6.class
+SHA-256-Digest: Qn1FDEcEp4qE2iC1W5WYNv3Q/+/Y0X/6GEG5Wi3dUt0=
+
+Name: com/kitfox/svg/FillElement.class
+SHA-256-Digest: yaTe45uups2qnqKSfSZ4eDJWEnc+h+ROL6i7JPvYdJs=
+
+Name: com/kitfox/svg/Marker$MarkerLayout.class
+SHA-256-Digest: ZQQj1jwm0U6QUlVYn9nipXG/B0TuGvRz4TxKlQ0bQyU=
+
+Name: com/kitfox/svg/Desc.class
+SHA-256-Digest: gMTRnpMJnq8i0M2JDJMoSrq1fV1UDDQpXIrK6A5uKUg=
+
+Name: com/kitfox/svg/animation/parser/AnimTimeParser$LookaheadSuccess.
+ class
+SHA-256-Digest: VO/MnGhDLs9KDwfMC9DgWKfzygbwlFEAe93RwLSCYbA=
+
+Name: com/kitfox/svg/pathcmd/MoveTo.class
+SHA-256-Digest: KL9NfEHwHf5jt8UcomSopJkuPKp3496quMAiD0tOkXo=
+
+Name: com/kitfox/svg/app/SVGViewer.class
+SHA-256-Digest: xbpx0hLnhLVRFKNm+iZc4l8yyrr0ZcXAPB2QdKT+mBY=
+
+Name: com/kitfox/svg/animation/parser/ASTEventTime.class
+SHA-256-Digest: qVD6V5XUWk7t08ORP0BajrmdgKSbnG2OQbZpnvHO3OU=
+
+Name: com/kitfox/svg/pathcmd/Horizontal.class
+SHA-256-Digest: GxdrUhs1jwSlL8duVAfOVNrxMM0eJSxFUNm3NRhS8Kk=
+
+Name: com/kitfox/svg/pattern/PatternPaint.class
+SHA-256-Digest: aGmFh5BQc8A3q8r22r/GfExaQjiAxyE4auc//xurx8I=
+
+Name: com/kitfox/svg/Text.class
+SHA-256-Digest: Ju968J3dpBfph/ei2q+fUwrcHOa9So6IsJQw9qS1sbU=
+
+Name: com/kitfox/svg/animation/TimeDiscrete.class
+SHA-256-Digest: I47WvQkEf6Mp7PQiB+pOXB4es6GoPDhsBNnclukVElM=
+
+Name: com/kitfox/svg/app/SVGPlayer$5.class
+SHA-256-Digest: FhfYp5aPYrFp4+nvfGyO7fsMtAvLhNgngA3ISB3ws+Y=
+
+Name: com/kitfox/svg/app/SVGViewer$8.class
+SHA-256-Digest: yKAWpTmCTUKOc4wDashGSPYlovlpVkIvh2OpzHsQ37c=
+
+Name: com/kitfox/svg/app/PlayerDialog$3.class
+SHA-256-Digest: /nNvF0jg4zwjyKQdkyXLiCCcVEgAANTAuUZQAw3+Gmo=
+
+Name: com/kitfox/svg/RenderableElement.class
+SHA-256-Digest: O3cgdyOuhu//iYCbV/dsTpv8Zw2QUpSEKdP/erX2m8Q=
+
+Name: com/kitfox/svg/animation/parser/ASTTerm.class
+SHA-256-Digest: VGwfoOYw0uwNASkDjGyrZwdQR4c5byrdjoiioRCSe4A=
+
+Name: com/kitfox/svg/batik/RadialGradientPaint.class
+SHA-256-Digest: ShVdLdlw0r3DzXReZW8v7ym0P3iivSyX2duN5j7OQks=
+
+Name: com/kitfox/svg/xml/StyleAttribute.class
+SHA-256-Digest: G6x4NNuf3PRi/2JBOQz2UY0PmFzPCxSo2jAdYIp57yk=
+
+Name: com/kitfox/svg/ClipPath.class
+SHA-256-Digest: 6s8oXqruqleblupgF77L+erdTZUE/ziUEvDOEkfk0Rs=
+
+Name: com/kitfox/svg/SVGDiagram.class
+SHA-256-Digest: YyJlPHt285b9Zk2src7StBt4381R3N7RQmQANnSeHog=
+
+Name: com/kitfox/svg/FilterEffects.class
+SHA-256-Digest: PZVLPVDEBXxetGVh+/HmWWH9GtxTCmpkALtU7DHV3hI=
+
+Name: com/kitfox/svg/animation/parser/AnimTimeParser.class
+SHA-256-Digest: se3Tit4mA3yuxLDW3cneNO6g5hMgLZ1LzcwvDXzYAeM=
+
+Name: com/kitfox/svg/Line.class
+SHA-256-Digest: 9KnQc/guoZzIJqVFF4R6RV1HfKl7uZsDqBMsvpyhzv8=
+
+Name: com/kitfox/svg/xml/Base64Util.class
+SHA-256-Digest: VA5uPjeNcSRi0ygS9VpMEYknw4pUQ2zR1msOHStDN18=
+
+Name: com/kitfox/svg/Hkern.class
+SHA-256-Digest: b1sHlrTNAcaQFzsXKO8XjUSduvj/Ql1MQqJ1VUYsH84=
+
+Name: com/kitfox/svg/animation/TrackMotion.class
+SHA-256-Digest: pc5KM6FTWu5qguUvG26iaEiNyOhsn5LsJ29AJfm91yI=
+
+Name: com/kitfox/svg/animation/TimeCompound.class
+SHA-256-Digest: 9f69jvwYTfvpU3WtSoi6raWZymH3j+d5N2lemdctPow=
+
+Name: com/kitfox/svg/app/SVGPlayer$2.class
+SHA-256-Digest: gl382I94ACQXO/0jZ3nHPkxUMoMDkQFUWb6r6NmVfl0=
+
+Name: com/kitfox/svg/animation/parser/ASTInteger.class
+SHA-256-Digest: DFQcczwvfDSnLywU85R+/T5m7mB04+XNtwZNB6Kc31I=
+
+Name: com/kitfox/svg/animation/parser/Token.class
+SHA-256-Digest: fCFZtL4VgPyWDsK4Y9zCHjy30vSgyy/+eD23B3QlEyY=
+
+Name: com/kitfox/svg/Font.class
+SHA-256-Digest: uvgHuJ/xj1VnVedPsihbAOUoTtj4dHD9OVE5wD9uots=
+
+Name: com/kitfox/svg/SVGCache.class
+SHA-256-Digest: L8S8ky1MTXaaNAATGfmYD7lPO2dYREPoL7N/gTQvKkk=
+
+Name: com/kitfox/svg/app/SVGPlayer.class
+SHA-256-Digest: ULR3xCxZSMuN2k5LMqscRstGjIyAdaVF4SOs93su0zU=
+
+Name: com/kitfox/svg/app/VersionDialog$2.class
+SHA-256-Digest: P8lViLvFTGvcQhnXycjF258hX5CpVfto9h3lM5qxrWQ=
+
+Name: com/kitfox/svg/app/beans/SVGIcon.class
+SHA-256-Digest: Qssuyh8lF2qwX7qDJvUauD7jxB6bV19BAa1RIa9cNnA=
+
+Name: com/kitfox/svg/animation/Animate.class
+SHA-256-Digest: VKx5ZiBpbW2/0o4b/32B4PWMyXl+3EbL/rmHsyRJ4+U=
+
+Name: com/kitfox/svg/app/MainFrame$2.class
+SHA-256-Digest: TmoJm/MvVOXPYo8Bwc1WYnKLV9noWjUr+d6I1Qn38O8=
+
+Name: com/kitfox/svg/composite/AdobeCompositeContext.class
+SHA-256-Digest: 1B7+Yon2pby8tGn+ufIqyXQBQC9mFRj6VpTxanjnrtg=
+
+Name: com/kitfox/svg/animation/Bezier.class
+SHA-256-Digest: ty2a6p9FeLjeslEmOlfNamuTeCandHyea9jSeXR1z7A=
+
+Name: com/kitfox/svg/app/PlayerDialog$4.class
+SHA-256-Digest: 2rnbxpSSN25IDCgITqMOckAmgdTIGXXOgV9g8JD1aoo=
+
+Name: com/kitfox/svg/animation/TimeBase.class
+SHA-256-Digest: /9C3eVoTRhqgnA+0A3EpgUz0tHKZCevCIxnRkfSiWZg=
+
+Name: com/kitfox/svg/SVGException.class
+SHA-256-Digest: vd807nUY0xU4DspL94s318jgtHZLHChxS9aaBZc+haI=
+
+Name: com/kitfox/svg/animation/parser/ASTSum.class
+SHA-256-Digest: qphUCyQLb1fi9xo568gc3sKbfJTPTk7r2IVWNWX+cYA=
+
+Name: com/kitfox/svg/batik/MultipleGradientPaint.class
+SHA-256-Digest: PvxBJrSULTXq6uymPCWLdlG+eLSEQFbpQ+D9+N28XZY=
+
+Name: icons/cursor.svg
+SHA-256-Digest: 57AA6MeTqY54c4hksJcYUvC2ne+NRfS23HKJwI9zucY=
+
+Name: com/kitfox/svg/FeLight.class
+SHA-256-Digest: s5s2ppKobz/jyg+H7wkL8kPvjq6kf6kJ3701iaUSTX4=
+
+Name: com/kitfox/svg/Path.class
+SHA-256-Digest: GiY8NwsoAR5HgNNUgu5IzYtRCj6n4M1FFlJWYSCaNuM=
+
+Name: com/kitfox/svg/PatternSVG.class
+SHA-256-Digest: FPb3TcrTcFpEe26rO76l30OxAL1eVLPdFVmijbEsGWI=
+
+Name: com/kitfox/svg/batik/MultipleGradientPaintContext.class
+SHA-256-Digest: t8Op7aiZ0DKqJpUIHvZ3GsODHdumC1SsHiNzPERAY2g=
+
+Name: com/kitfox/svg/animation/parser/SimpleNode.class
+SHA-256-Digest: nVNVYoErarD9otfVL4UmHLR4LFg0M64TO7orncaWWKY=
+
+Name: com/kitfox/svg/animation/parser/TokenMgrError.class
+SHA-256-Digest: tYiDObIA6Ns3/G7b6sJxtli+2x/vRlMYSzbXiNtGy1s=
+
+Name: com/kitfox/svg/animation/parser/AnimTimeParserConstants.class
+SHA-256-Digest: hPcxepVZOAv5Um2VcsrtBnyJUq8FS7Vw3l8EnLi3Hm0=
+
+Name: com/kitfox/svg/Group.class
+SHA-256-Digest: /ah6GrjCf5uITSd4IeBtp23FeSa9iU3psTznOnx+hWY=
+
+Name: com/kitfox/svg/TransformableElement.class
+SHA-256-Digest: sTavtVjE7wTXUhJHJ/aQ/HhZ1HkfKXKvxtpJAwYE3Sc=
+
+Name: com/kitfox/svg/composite/AdobeComposite.class
+SHA-256-Digest: oAj6/Qy3rCUe6iOKfIe0edFUuQzMh85n9fCMomOoF0s=
+
+Name: com/kitfox/svg/animation/parser/ASTExpr.class
+SHA-256-Digest: TyB+FwSrM2gL827WoaKz/XxNOAHaS2Q5pIvwNBB/oAg=
+
+Name: com/kitfox/svg/app/beans/SVGPanel.class
+SHA-256-Digest: 49zQ4rOaxtMsiZ2U39g1qmoTJspQjfNWhGpOJsv0/dU=
+
+Name: com/kitfox/svg/batik/MultipleGradientPaint$ColorSpaceEnum.class
+SHA-256-Digest: LR7HPHV5S109Gqiwmqu0f+rlslPN5JYcoIyRLrbBbv0=
+
+Name: com/kitfox/svg/xml/cpx/CPXConsts.class
+SHA-256-Digest: PFHveSjx1/V3GYdGwlzEPpSW5xhcWuFg0E4hlwZHzbw=
+
+Name: com/kitfox/svg/app/PlayerDialog$7.class
+SHA-256-Digest: iAIH+ACM9qhAFgbNRk0ROnSgn0SfdHHL1cdGFprZVfQ=
+
+Name: com/kitfox/svg/xml/XMLParseUtil.class
+SHA-256-Digest: wYUYTPRIfG9d6Z9AB1vc2+JgqqwtZIH7V1kDAnLDJZ8=
+
+Name: com/kitfox/svg/xml/cpx/CPXInputStream.class
+SHA-256-Digest: kdRznb4xW1lZesdIssbUXxYP7aK/VhbdS/B1bkqPFNk=
+
+Name: com/kitfox/svg/app/SVGViewer$1.class
+SHA-256-Digest: Z3MnrfRt0kAWG2olCdZw0XEkprgs/fliBy8Lz8vuYsc=
+
+Name: com/kitfox/svg/Gradient.class
+SHA-256-Digest: W3f3NAAu3vgj26QADOTnO0VxwCuTAS6WhTpFehoiVZ0=
+
+Name: com/kitfox/svg/Symbol.class
+SHA-256-Digest: y38LsKSPMTkXC2+uE74LOPItU6Kg0WDce2AkHiDm08s=
+
+Name: com/kitfox/svg/Rect.class
+SHA-256-Digest: dQ0jWVMDFif+h4y5Ctx5lHV3WO6KEwy8SlLDDrCDJhA=
+
+Name: icons/SVGUniverseIcon_32c.png
+SHA-256-Digest: /JeSz/vlBStk3DfdpulAceWn1rrTReV09CqvZzr+bFU=
+
+Name: com/kitfox/svg/xml/NumberWithUnits.class
+SHA-256-Digest: i7vuLb64wmBUxFfKpHeAG0ablaDFvmypNi906Kcrqgk=
+
+Name: com/kitfox/svg/FePointLight.class
+SHA-256-Digest: f/hIMk4KAAGe7rfz1VFj0Ld9w/ZtmXWtmZjr/6vhuDo=
+
+Name: com/kitfox/svg/xml/Base64OutputStream.class
+SHA-256-Digest: LsrPDH2bVPGAhzk/+hCn8q+xDoIccxGrBGY+bt6utic=
+
+Name: com/kitfox/svg/app/PlayerThread.class
+SHA-256-Digest: wQpeNFH+nS6VZmMnKJjkzb84vO7I1pUQPQ5h0/056dA=
+
+Name: com/kitfox/svg/Style.class
+SHA-256-Digest: fzzJYMg6yuiQWGNUvM/i+uoCCK3I+8aGzcm5cIjmzLE=
+
+Name: com/kitfox/svg/Glyph.class
+SHA-256-Digest: IOE2Z6h+qCYvrg95y2AgXGeFDjXgH9WNiJ+JrAx45p0=
+
+Name: com/kitfox/svg/SVGUniverse.class
+SHA-256-Digest: RNNAfgVZbFO4jlQB+57Pdtt6gZGmFEOCBDW31p/AO94=
+
+Name: com/kitfox/svg/pathcmd/LineTo.class
+SHA-256-Digest: gdxdBY8U/zWAqKGde9KravRgU7bQwL7LJxj5VGykNlw=
+
+Name: com/kitfox/svg/animation/TrackColor.class
+SHA-256-Digest: 6rbPK8NezDvjFAqgImEqsvPTpe80Vqx5TghVNcUvjzY=
+
+Name: com/kitfox/svg/Use.class
+SHA-256-Digest: C9yiCD0m74D7AM7g4CLd407PLlz4JosTkWrxiPLhbws=
+
+Name: com/kitfox/svg/A.class
+SHA-256-Digest: oYqzRmto3fxp/hVMqWZvJPBHggRgenIsMRLitjGaAyQ=
+
+Name: com/kitfox/svg/ImageSVG.class
+SHA-256-Digest: vOK6WQvWL4ineJp/CEo9boUZeD4CyRbDjhpZsapnnJs=
+
+Name: com/kitfox/svg/batik/LinearGradientPaint.class
+SHA-256-Digest: hEBRlYHznPKNmEzrYFJ5tefvt4cf7/rqQra98rShWkI=
+
+Name: com/kitfox/svg/app/PlayerThreadListener.class
+SHA-256-Digest: ZNqXjbliobeD4wr7IEZO9bOSo8S8BhfBXagnF3QUtLM=
+
+Name: com/kitfox/svg/animation/TrackDouble.class
+SHA-256-Digest: TjFFgPu1v8xu5KERxUdffJ2P9YHHSYlFEKOF7oLajDo=
+
+Name: com/kitfox/svg/SVGElement.class
+SHA-256-Digest: 44enUnkHko45b1Gg8hdRuZZBNBNd8DoFaRkjpLssHo0=
+
+Name: com/kitfox/svg/animation/TrackBase.class
+SHA-256-Digest: nrnIGSAePTbY1mKQgbnFN+qtOeZ/v6UHJdm/jmkgteU=
+
+Name: com/kitfox/svg/app/MainFrame$3.class
+SHA-256-Digest: +G14KjI0dUeRRwgLKpixk41dRHsCpEyZGCm8+ZYvX2I=
+
+Name: com/kitfox/svg/Marker$MarkerPos.class
+SHA-256-Digest: 7i7kGoKpYaWHW3LulSHUdOkmckrN23l/hYWNZqHCMkA=
+
+Name: com/kitfox/svg/xml/WritableXMLElement.class
+SHA-256-Digest: 0jj2ALMR8l65+5fRrTojoyS84qTqFuhXIbBqx5G9PsU=
+
+Name: com/kitfox/svg/animation/TrackTransform.class
+SHA-256-Digest: wUttaX3J4gZtLKyOGCEOVTuOLje7uQjR9oiNVcF1dEs=
+
+Name: com/kitfox/svg/SVGConst.class
+SHA-256-Digest: RM5BUh8OKycLnSbbwU27r7llKyAP45+Youzxt9oL4L8=
+
+Name: com/kitfox/svg/SVGLoaderHelper.class
+SHA-256-Digest: k1jQ6pPhe2age7db07NPQHTrxinoi6upg8rhXavq/J4=
+
+Name: com/kitfox/svg/app/SVGViewer$3.class
+SHA-256-Digest: NRFpSMYuNqK1OTJuZEn1Op3lUrDUUbdvoTIvIi1Egos=
+
+Name: com/kitfox/svg/animation/AnimationElement.class
+SHA-256-Digest: bwocTmNjNwzln4I8MpiQTrWXVC7ejsdCxqbIbbObS4A=
+
+Name: com/kitfox/svg/animation/parser/ASTParamList.class
+SHA-256-Digest: 9XPZBM9eJA8g8IRx3HdyGUdr9Jv5j5AxE9mmfDl6spY=
+
+Name: com/kitfox/svg/app/data/Handler.class
+SHA-256-Digest: ESFA2tGM2b5EhWByG6f8teC5MAK6/ndxkLxxGTurUhs=
+
+Name: com/kitfox/svg/animation/TimeLookup.class
+SHA-256-Digest: AmVgma8tp/GNecJ2+IbG9qaHPyF/LAGI+8qMm1UABYA=
+
+Name: com/kitfox/svg/animation/AnimateXform.class
+SHA-256-Digest: NbSOTDTAgjrNZWndh7UvS88vNpRBMtC6LO+ersbKf/4=
+
+Name: com/kitfox/svg/animation/TrackManager.class
+SHA-256-Digest: SG9Xzmb8/nM6B5vRQgUexWEIjtLNZQrxQlcwiVDH5As=
+
+Name: com/kitfox/svg/animation/TimeSum.class
+SHA-256-Digest: hQ5RKZdd+xgOZGvJqtO30zi8sebFpDixfqVbIWsa6zc=
+
