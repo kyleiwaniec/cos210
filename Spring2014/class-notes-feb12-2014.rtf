@@ -1,0 +1,140 @@
+arrays
+
+fixed size array:
+	compute index times lengh (array bucket) plus base
+
+	Java initializes buckets to 0s. other languages may not.
+
+	array doesn't grow, doesn't shrink, but oparates in O(1).
+
+Growable Array: 
+	when we run out of buckets, copy the array (reallocate), to a new array double the length, and maintain the "size". The cost of resizing the array is amortized. running time: a little less than O(n).
+
+
+Pointers/References
+
+Single Linked List:
+	-> head
+	-> next
+	-> data	
+	-> tail
+
+	easy to add at front and end of the list. O(1) 
+
+	delete item FROM TAIL is hard. deleting from head is easy.
+
+Doubly Linked List
+	-> head
+	-> next
+	-> previous
+	-> data	
+	-> tail
+
+	easy to add at front and end of the list. O(1) 
+
+	delete item FROM TAIL is hard. deleting from head is also easy.
+
+
+Double Ended Queue - Deck		
+
+Assingments:
+array, growable array, single linked lists, doubly linked lists, 
+
+
+ARRAY:
+the array interface extends java.lang.Iterable<E>
+the array impements get(), set(), size(), isEmpy()
+
+Iterator is class which has intimate knowlege of internals. it returns in a stateful way, all elements in an unordered way.
+allows the foreach construct: for(element : collection){// do soemthing to each element}
+
+
+concurrent modification exception. java is not thread safe here.
+
+it's safe in the iterator to "remove" an item, unless there are multiple threads, hence we must throw concurrent modification exception.
+
+being Iterable means we have to return an Iterator.
+
+note: interfaces can exten other interfaces.
+
+Generics: horrible syntax that does actually does simple things. generics and real java arrays dont play nice. generics make collections "type safe"
+
+Generics are NOT reifiable.
+Arrays are reifiable.
+
+reification: java arrays do not have reification, meaning the compiler might not catch type errors which can happen at run time. 
+
+"protected" methods can used by subclasses but not users.
+
+arrayIndexOutOfBounds -> you are trying to access an index which does not exist
+
+
+GROWABLE ARRAY:
+write the boundsCheck() method.
+
+SINGLY LINKED LIST:
+implements ISequence interface: addFirst(), addLast(), removeFirst()
+
+ListIterator gives items in order from first to last.
+
+
+
+DESIGN PATTERS : by GoF [ Gang of Four ]
+
+The Observer pattern: Model View Controller (MVC)
+
+Model: application data is collected in the Model. Model is not aware of views or controllers.
+Model has Listener List (of views). Model fires events to everyone in the listener list. In the event is a reference to the model.
+
+model: midi file. this data file can used for many purposes.
+
+views: do different things, while sharing the data model 
+	a. knows how to display on ipad. 
+	b. knows how to print. 
+	c. knows how to play the file
+model and view only know about each other indirectly. The view registers with the model on a Listener List. View listens to events published by model.
+	
+controller: controller knows about the model
+	Any sodtware which chages the model is a ontroller.
+	When changes are made to the data, the views have the capacity to update
+
+controllers make changes to model. model updates listener list. view sees the update and "repaints".
+
+
+
+the Model is an "Observable"
+the views are "Observers". views can listen to / observe many models
+controllers are for example: button, scrollbar..
+
+a button is a mini- model , like a mouse listner. abstract button has state values (enabled, disabled, inFocus, etc..)
+
+
+
+
+
+JButton extends abstract button.
+PaintComponent, Update,
+
+UIDelegate - the painting of a pure view. updateUI()
+
+Abstract button: getModel()  buttonModel has methods like: addActionListener
+
+last guy to regesiter gets serviced first - to be able to override behaviour.
+
+Observable is a class that is not fully implemented. 
+	addObserver()
+	hasChanged()
+	setChanged()
+	
+	notifyObservers()
+
+
+Observer interface has one method: update(Observable o, Object arg);
+
+
+
+
+
+
+
+

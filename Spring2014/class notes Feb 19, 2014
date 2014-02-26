@@ -1,0 +1,129 @@
+JComponent doesn't extend observable.
+
+Swing has an event listener list instead.
+
+addBlindsListener()  // addActionListener
+
+
+EventListenerList
+
+FireBlindsEvent(){
+	
+	take event list and iterate backwards by twos.
+	lazy create the event
+	fire event
+}
+
+draw bug in -1 to 1 square 
+
+head pointing to bottom
+
+FEb 24th, 2014
+---------------------------------------------------------
+Threading and Networking
+
+Thread: single executable line of exacution which may be dispatched to another processor.
+
+a collection needs to be protected.
+
+a processor in order to change  variable, reads the var and writes to it.
+read/write pair
+
+"monitor" (semaphor)
+
+all Objects have a Monitor bit. this means that when a processor reads data, no other processor has access to the data. nobody can do anything between the read and write.
+
+We acquire the monitor when we need to do thread thread work.
+
+all objects have a clone method (set to false), a toString, which we typically overwrite, as well as:
+
+wait();
+notify();
+notifyAll();
+
+functions can be declared to be synchronized.
+like this instance method. the method is entered Serially. Only on ethread can hold the monitor.
+public synchronized void doSomething {
+	// all methods are sychronized
+}
+
+better pattern:
+
+public void doSomething{
+	
+	synchronized () {} // a synchronized block inside.
+}
+
+
+
+who gets the next turn is not guaranteed.
+
+synchronized (queue) {
+	while(queue.isEmpty){
+		queue.wait();  // could be a dealock??
+		// when I call wait, I give up the monitor, with the guarantee that when I wake up, i will get the monitor back.
+	}
+	Foo foo = queue.remove();
+}
+
+
+Synchronized (queue){
+	queue.add();
+	queue.notify(); // will tell some thread somethere that is waiting on the moitor (above ^^) to awaken.
+	queue.notifyAll(); // wakes up everybody waiting on the monitor. guarantees everyone to get the monitor at some point.
+}
+
+
+User Interface thread (supports drrwaing code, for example). this is thread is not "Thread safe", because there is onlu one.
+
+a thread puts data on a queue.
+send threads, one at a time pull messages off the queue and send to everybody.
+the queue needs to be protected.
+
+--------------------------------------------
+
+Application layer - talks to Transpor layer via sockets(bidirectional)
+Transport layer - TCP(connection based protocol) UDP
+Network layer - IP
+Ethernet
+
+Server socket associates tcp port to server (TCP: guaranteed packet sending)
+Regular sockets
+
+
+UDP will not notify if packet was recieved. good for streaming video, where if a packet misses, that's OK.
+UDP could be good for a game for sending positions quickly.
+
+
+in the BUG game:
+intermediate queues that need to be synchronized
+bugworld creates a buggame
+
+buggame creates a bugmodel and bugview
+
+the view is where the bug drawing is.
+
+add a feature to the codebase: such as: make it work with our bugs, or collision detection
+
+--------------
+
+start doit [name of bug] [name of other bug] [host ip address of other player - localhost:5975] [5975]
+
+
+doit [name of other bug] [name of bug] [localhost] [5976]
+
+
+ipconfig
+
+
+
+
+
+
+
+
+
+
+
+
+

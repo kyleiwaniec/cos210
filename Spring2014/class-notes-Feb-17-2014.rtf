@@ -1,0 +1,77 @@
+class notes Feb 17, 2014
+
+when testing code, we test to the interface. NOT private methods.
+
+private class ArrayIterator<E> implements java.util.Iterator<E>{
+	int index;
+	public ArrayIterator(){
+		this.index = 0;
+	}
+
+	@override
+	public boolean hasNext(){
+		return this.index < theArray.length;
+	}
+
+	@sppresswarnings("unchecked")
+	@override
+	public E next(){
+
+	}
+
+	// more code....
+}
+
+
+Good coding practice: Do Not modify the collection which is currently being iterated.
+
+
+if the modification flag is set, java's iterator will throw concurrentModificationException
+
+variables need ot be "volatile" to be seen globally. because java has local memory in which global variables could reside.
+
+
+Stuff we'll learn:
+Networking, Threads, other stuff...
+
+layers:
+http -> tcp -> ip
+
+Controller changes model. model notifies views of the change.
+
+reserving the use of 'this' to getters and setters. for example: this.value = value
+
+java.util.Observable
+Observable:
+
+
+
+model extends observable - views can register, and model can notify them
+view implements observer
+
+
+Observable state machine.
+
+awt event thread
+
+
+
+
+mke round dial and needle. model never gets bigger than 9999.
+
+array: contiguous memory. great for random access. bad at removals, adds, anything that changes the size of the array.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
