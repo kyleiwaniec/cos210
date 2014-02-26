@@ -1,0 +1,19 @@
+// Format this file as a Postscript file with 
+//    dot dfa1.dot -Tps -o out.ps
+
+digraph dfa {
+size="11,8.25";
+rotate=90;
+rankdir=LR;
+n999999 [style=invis];
+n999999 -> n0
+n1 [peripheries=2];
+n0 -> n2 [label=A];
+n0 -> n3 [label=B];
+n1 -> n2 [label=A];
+n1 -> n3 [label=B];
+n2 -> n2 [label=A];
+n2 -> n1 [label=B];
+n3 -> n2 [label=A];
+n3 -> n3 [label=B];
+}

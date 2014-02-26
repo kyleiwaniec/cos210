@@ -1,0 +1,14 @@
+-d docs
+-use
+-splitindex
+-private
+-author
+-version
+-nodeprecated
+-nosince
+-source 1.7
+-linksource
+-sourcepath src
+-classpath bin;lib/Debug.jar;lib/DataStructures.jar
+-link "file:///C:/Program Files/Java/jdk1.7.0/docs/api"
+-subpackages edu.mccc.cos210.g2d

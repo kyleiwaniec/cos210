@@ -1,0 +1,77 @@
+package edu.mccc.cos210.tests;
+import edu.mccc.cos210.ds.DoublyLinkedList;
+import edu.mccc.cos210.ds.Utility;
+public class DoublyLinkedListTest1 {
+	public static void main(String[] sa) throws Exception {
+		new DoublyLinkedListTest1().doIt();
+	}
+	private void doIt() throws Exception {
+		DoublyLinkedList<String> dlls = Utility.getDoublyLinkedList();
+		System.out.println(dlls);
+		dlls.addLast("A");
+		System.out.println(dlls);
+		dlls.addLast("B");
+		System.out.println(dlls);
+		dlls.addLast("C");
+		System.out.println(dlls);
+		dlls.addLast("D");
+		System.out.println(dlls);
+		dlls.getFirst();
+		System.out.println(dlls);
+		dlls.getNext();
+		System.out.println(dlls);
+		//dlls.getNext();
+		//System.out.println(dlls);
+		dlls.removePrevious();
+		System.out.println(dlls);
+		System.out.println(dlls);
+		dlls.addFirst("A");
+		System.out.println(dlls);
+		dlls.removeFirst();
+		System.out.println(dlls);
+		dlls.addFirst("B");
+		System.out.println(dlls);
+		dlls.addFirst("C");
+		System.out.println(dlls);
+		dlls.addFirst("D");
+		System.out.println(dlls);
+		dlls.addLast("E");
+		System.out.println(dlls);
+		dlls.addLast("F");
+		System.out.println(dlls);
+		dlls.addFirst("G");
+		System.out.println(dlls);
+		System.out.println(dlls.getFirst());
+		System.out.println(dlls.getNext());
+		System.out.println(dlls.getNext());
+		System.out.println(dlls.getPrevious());
+		dlls.addNext("H");
+		dlls.addNext("I");
+		dlls.addPrevious("J");
+		dlls.addPrevious("K");
+		System.out.println(dlls);
+		dlls.removeFirst();
+		System.out.println(dlls);
+		dlls.removeFirst();
+		System.out.println(dlls);
+		dlls.removeFirst();
+		System.out.println(dlls);
+		dlls.removeLast();
+		System.out.println(dlls);
+		dlls.removeLast();
+		System.out.println(dlls);
+		dlls.addLast("Q");
+		dlls.getFirst();
+		dlls.getNext();
+		dlls.removeNext();
+		System.out.println(dlls);
+		dlls.removePrevious();
+		System.out.println(dlls);
+		dlls.removeFirst();
+		System.out.println(dlls);
+		dlls.removeFirst();
+		System.out.println(dlls);
+		dlls.removeFirst();
+		System.out.println(dlls);
+	}
+}

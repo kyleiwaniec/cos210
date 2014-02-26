@@ -1,0 +1,14 @@
+-d docs
+-use
+-splitindex
+-private
+-author
+-version
+-nodeprecated
+-nosince
+-source 1.7
+-linksource
+-sourcepath src
+-classpath ./bin:./lib/Debug.jar
+-link "http://docs.oracle.com/javase/7/docs/api/"
+-subpackages edu.mccc.cos210.hwk1

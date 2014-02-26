@@ -1,0 +1,317 @@
+
+<!-- saved from url=(0056)http://eli.thegreenplace.net/files/docs/forays/col6.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1255">
+
+</head><body class="goog_qs-closed">
+<h4>A small debt</h4>
+
+Before we move to our next major topic in Regex recognition, there's a little something
+I owe you from the last column. The regex parsing implementation in regex_parse.cpp 
+lacks something: since it recognizes simple characters "as is", it's not possible
+to feed <b>eps</b> to it (it takes it for "e" followed by "p" followed by "s"). 
+So, to rectify this problem, I added an implementation for the traditional regex symbol <b>?</b> 
+(zero or one). Take a look at regex_parse.cpp to see how it's done - keep in mind that 
+<b>x?</b> is equivalent to <b>(x|eps)</b>.
+
+<h3>Converting NFAs to DFAs</h3>
+
+The N in NFA stands for non-deterministic. Our computers, however,
+are utterly deterministic beasts, which makes "true" simulation of a NFA impossible. But 
+we do know how to simulate DFAs (in fact, I showed it in the second part of this series).
+So, what's left is to see how NFAs can be converted to DFAs. This is the topic of 
+this chapter.
+
+<h4>Introduction</h4>
+<span class="goog_qs-tidbit goog_qs-tidbit-0">The algorithm for constructing from a NFA a DFA that recognizes the
+the same language is called "Subset Construction". The main idea of this 
+algorithm is in the</span> following observations:
+<ul>
+<li>In the transition table of a NFA, given a state and an input there's a set of states we
+can move to. In a DFA, however, there's only one state we can move to.
+</li><li>Because of <b>eps</b> transitions, even without an input there's a set of states a NFA can
+be in at any given moment. Not so with the DFA, for which we always know exactly in what
+state it is.
+</li><li>Although we can't know in which state from the sets described above the NFA is, the
+set <i>is</i> known. Therefore, we will represent each set of NFA states by a DFA
+state. The DFA uses its state to keep track of all possible states the NFA can be in
+after reading each input symbol.
+</li></ul>
+Take, for example, the familiar NFA of the <b>(a|b)*abb</b> regex (generated automatically
+by Thompson's Construction, with the code from the last column):
+<p>
+<img src="./col6_files/n_ababb.jpg" border="0" width="719" height="313" alt=""></p><p>
+The initial state of this NFA is 0... or is it ? Take a look at the diagram, and count
+in how many states this NFA can be <i>before</i> any input is read. If you remember
+the previous columns where I explained how <b>eps</b> transitions work, you should have
+no trouble noticing that initially, the NFA can be in any of the states {0, 1, 2, 4, 7}, because
+these are the states
+reachable by <b>eps</b> transitions from the initial state. 
+</p><p>
+Note: the set T is reachable by <b>eps</b> from itself <i>by definition</i> 
+(the NFA doesn't have to take an <b>eps</b> transition, it can also stay in its current state).
+</p><p>
+Now imagine we received the 
+input <b>a</b>. What happens next ? In which states can the NFA be now ? This should be 
+easy to answer. Just go over all the states the NFA can be in <i>before</i> the input, and
+see where the input <b>a</b> leads from them. This way, a new set emerges: {1, 2, 3, 4, 6, 7, 8}. 
+I hope you
+understand why: initially, the NFA can be in states {0, 1, 2, 4, 7}. But from states 0, 1 and
+4 there are no transitions on <b>a</b>. The only transitions on <b>a</b> from that set are
+from state 2 (to state 3) and from state 7 (to state 8). However, the states {3, 8} is an 
+incomplete answer. There are <b>eps</b> transitions from these states - to states {1, 2, 4, 6, 7}, so
+the NFA can actually be in any of the states {1, 2, 3, 4, 6, 7, 8}.
+</p><p>
+If you understand this, you understand mostly how the Subset Construction algorithm works.
+All that's left is the implementation details. But before we get to the implementation
+of the conversion algorithm itself, there are a couple of prerequisites.
+
+</p><h4>eps-closure</h4>
+Given N - a NFA and T - a set of NFA states, we would like to know which states in N
+are reachable from states T by <b>eps</b> transitions. <b>eps-closure</b> is the procedure
+that answers this question. Here is the algorithm:<p>
+</p><pre>algorithm <b>eps-closure</b>
+inputs: N - NFA, T - set of NFA states
+output: eps-closure(T) - states reachable from T by <b>eps</b> transitions
+
+  eps-closure(T) = T
+  foreach state t in T
+    push(t, stack)
+  
+  while stack is not empty do
+    t = pop(stack)
+    foreach state u with an <b>eps</b> edge from t to u
+      if u is not in eps-closure(T)
+        add u to eps-closure(T)
+        push(u, stack)
+  end
+  
+  return eps-closure(T)
+</pre>
+This algorithm iteratively finds all the states reachable by <b>eps</b> transitions
+from the states T. First, the states T themselves are added to the output. Then, 
+one by one the states are checked for <b>eps</b> transitions, and the states these
+transitions lead to are also added to the output, and are pushed onto the stack (in order
+to be checked for <b>eps</b> transitions). The process proceeds iteratively,
+until no more states can be reached with <b>eps</b> transitions only.
+<p>
+For instance, for the <b>(a|b)*abb</b> NFA above, eps-closure({0}) = {0, 1, 2, 4, 7},
+eps-closure({8, 9}) = {8, 9}, etc.
+</p><p>
+In the attached source code, the implementation of eps-closure is in the file subset_construct.cpp,
+function <tt>build_eps_closure</tt>. It follows the algorithm outlined above very closely, so you
+should have no trouble understanding it.
+
+</p><h4>move - a new NFA member function</h4>
+
+Given T - a set of NFA states, and A - an input, we would like to know which states
+in the NFA are reachable from T with the input A. This operation was implemented
+in the function <tt>move</tt>, in nfa.cpp (member of the NFA class). The function
+is very simple. It traverses the set T, and looks for transitions on the given input,
+returning the states that can be reached. It doesn't take into account the <b>eps</b>
+transitions from those states - there's eps-closure for that.
+
+<h4>Keeping track of the input language of a NFA</h4>
+
+For reasons that will soon become obvious, we must keep track of the input language 
+used in the NFA. For example, for the regex <b>(a|b)*abb</b> the language is {a, b}.
+A new member was added to the NFA class for this purpose - <tt>inputs</tt>. Take a look
+at the implementation in nfa.cpp to see how it's managed.
+
+<h4>DFA implementation</h4>
+
+Since we intend to build DFAs in this column, we need a DFA implementation. A very
+basic implementation was coded in dfa.h - take a look at it now. 
+The DFA's transition table is implemented with a <tt>map</tt>, that maps
+(state, input) pairs to states. For example, (t1, i) will be mapped to t2 if input
+i in state t1 leads to state t2. Note that it's not the same representation as 
+the one I used for the NFA. There are two reasons for this difference:<p>
+</p><ul type="disc">
+	<li>I want you to see two different implementations of a graph (which is what a
+	transition table is, as I told you before). Both are legitimate	for certain purposes.
+	</li><li>A little bit of cheating... I know which operations I'll need from the DFA,
+	so I'm tailoring the representation to these operations. This is a very common
+	programming trick - one should always think about the ways a data structure will
+	be used before he designs its exact implementation.
+</li></ul>
+<p>
+So take a look at dfa.h - the DFA implementation is very simple - only a transition
+table, a start state and a set of final states. There are also methods for showing the DFA
+and for simulating it... 
+</p><p>
+To remind you, this is the algorithm for DFA simulation 
+(from Algorithmic Forays 2):
+</p><pre>algorithm <b>dfa-simulate</b>
+inputs: D - DFA, I - Input
+output: ACCEPT or REJECT
+
+  s = start state of D
+  i = get next input character from I
+  
+  while not end of I do
+    s = state reached with input i from state s
+    i = get next input character from I
+  end
+
+  if s is a final state
+      return ACCEPT
+  else
+      return REJECT
+</pre><p>
+Let's now finally learn 
+how the DFA is built.
+
+
+</p><h4>Subset Construction</h4>
+
+In the Introduction, I provided some observations
+about following NFA states, and gave an example. You saw that while it's impossible to 
+know in what state a NFA is at any given moment, it's possible to know the set of states
+it can be in. Then, we can say with certainty that the NFA is in one of the states in this
+set, and not in any state that's not in the set.<p>
+So, the idea of Subset Construction is to build a DFA that keeps track where the NFA can
+be. Each state in this DFA stands for a set of states the NFA can be in after some transition.
+"How is this going to help us ?", you may ask yourself. Good question. 
+</p><p>
+Recall how we simulate
+a DFA (if you don't feel confident with this material, read the 2nd part of Algorithmic
+Forays again). When can we say that a DFA recognizes an input string ? 
+When the input string ends, we look at the state we're left in. If this is a final state -
+ ACCEPT, if it's not a final state - REJECT.
+</p><p>
+So, say that we have a DFA, each state of which represents a set of NFA states. Since a 
+NFA will always "pick the correct path", we can assume that if the set contains a final
+state, the NFA will be in it, and the string is accepted. More formally:
+A DFA state D represents S - a set of NFA states. If (and only if) one or more of the states in S is a
+final state, then D is a final state. Therefore, if a simulation ends in D, the input string is
+accepted.
+</p><p>
+So, you see, it's useful to keep track of sets of NFA states. This will allow us to correctly
+"simulate" a NFA by simulating a DFA that represents it. 
+</p><p>
+Here's the Subset Construction algorithm:
+</p><p>
+</p><pre>algorithm <b>subset-construction</b>
+inputs: N - NFA
+output: D - DFA
+
+  add eps-closure(N.start) to dfa_states, unmarked
+  D.start = eps-closure(N.start)
+  
+  while there is an unmarked state T in dfa_states do
+    mark(T)
+	
+    if T contains a final state of N
+      add T to D.final
+	
+    foreach input symbol i in N.inputs
+      U = eps-closure(N.move(T, i))
+      if U is not in dfa_states
+        add U to dfa_states, unmarked
+		
+      D.trans_table(T, i) = U
+  end
+</pre>
+<p>
+The result of this procedure is D - a DFA with a transition table, a start state and a set
+of final states (not incidentally just what we need for our DFA class...).</p><p>
+Here are some points to help you understand how <b>subset-construction</b> works:
+
+</p><ul>
+<li>It starts by creating the initial state for the DFA. Since, as we
+saw in the Introduction, an initial state is really the NFA's initial state plus all the 
+states reachable by <b>eps</b> transitions from it, the DFA initial state is the <b>eps-closure</b>
+of the NFA's initial state. 
+</li><li>A state is "marked" if all the transitions from it were explored. 
+</li><li>A state is added to the final states of the DFA if the set it represents contains the NFA's
+final state
+</li><li>The rest of the algorithm is a simple iterative graph search. Transitions are added to the 
+DFA transition table for each symbol in the alphabet of the regex. So the DFA transition actually
+represents a transition to the <b>eps-closure</b> in each case. Recall once again: a DFA state
+represents a set of states the NFA can be in after a transition.
+</li></ul>
+This algorithm is implemented in the function <tt>subset_construct</tt> in subset_construct.cpp, take
+a look at it now. Here are some points about the implementation:
+
+<ul>
+<li>dfa_states from the algorithm is represented by two sets: <tt>marked_states</tt> and <tt>unmarked_states</tt>, with the obvious
+meanings.
+</li><li>Since DFA states are really sets of NFA states (see the <tt>state_rep</tt> typedef), something
+must be done about numbering them properly (we want a state to be represented by a simple number
+in the DFA). So, the <tt>dfa_state_num</tt> map takes care of it, with the numbers generated 
+on-demand by <tt>gen_new_state</tt>.
+</li><li>The loop runs while the <tt>unmarked_states</tt> set is not empty. Then, "some" state is marked
+by taking it out from the unmarked set (the first member of the set is picked arbitrarily) and
+putting it into the marked set.
+</li></ul>
+A hope an example will clear it all up. Lets take our favorite regex - <b>(a|b)*abb</b>, and show how
+the algorithm runs on the NFA created from it. Here's the NFA again:
+
+<p><img src="./col6_files/n_ababb.jpg" border="0" width="719" height="313" alt=""></p><p>
+
+Following the algorithm: The start state of the equivalent DFA is the <b>eps-closure</b> of
+NFA state 0, which is A = {0, 1, 2, 4, 7}. So, we enter into the loop and mark A. A doesn't contain a final state, so we don't
+add it to the DFA's final set. The input symbol alphabet of the regex <b>(a|b)*abb</b>
+is {a, b}, so first we compute <tt>eps-closure(move(A, a))</tt>. Lets expand
+this:</p><p>
+<tt>eps-closure(move({0, 1, 2, 4, 7}, a)) = eps-closure({3, 8}) = {1, 2, 3, 4, 6, 7, 8}
+</tt>
+</p><p>
+Lets call this set B. B is not a member of dfa_states yet, so we add it there, unmarked. We also
+create the DFA transition <tt>D.trans_table(A, a) = B</tt>. Now we're back to the inner loop,
+with the input b. Of all the states in set A, the only transition on b is from 4 to 5, so 
+we create a new set: 
+</p><p><tt>C = eps-closure((move(A, b)) = eps-closure({5}) = {1, 2, 4, 5, 6, 7}</tt>
+</p><p>
+So C is added, unmarked, to dfa_states. Since all the alphabet symbols are done for A, we go
+back to the outer loop. Are there any unmarked states ? Yes, there are B and C. So we pick
+B and go over the process again and again, until all the sets that are states of 
+the DFA are marked. Then, the algorithm terminates, and <tt>D.trans_table</tt> contains
+all the relevant transitions for the DFA. The five different sets we get for DFA states are:
+</p><pre>A = {0, 1, 2, 4, 7}
+B = {1, 2, 3, 4, 6, 7, 8}
+C = {1, 2, 4, 5, 6, 7}
+D = {1, 2, 4, 5, 6, 7, 9}
+E = {1, 2, 4, 5, 6, 7, 10}
+</pre>
+A is the initial state of the DFA, since it contains the NFA initial state 0. E is obviously
+the only final state of the NFA, since it's the only one containing the NFA final state 10.
+If you follow the whole algorithm through and take note of the DFA transitions created, this
+is the resulting diagram:
+<p>
+<img src="./col6_files/dfa.jpg" border="0" width="720" height="540" alt="">
+</p><p>
+You can easily:
+</p><ol>
+	<li>See that this is a DFA - no <b>eps</b> transitions, no more than a single transition on 
+	each input from a state.</li>
+	<li>Verify that it indeed recognizes the regular expression <b>(a|b)*abb</b></li>
+</ol><p>
+ 
+</p><h3>That's it, folks !</h3>
+
+We've come a long way, and finally our mission is accomplished. During the past six columns,
+we've created a real regular expression engine. It's not a complete engine like the one
+Lex or Perl have, but it's a start. The basis has been laid, the rest is just extensions. 
+Lets see what we have:<p>
+</p><ol>
+	<li>A regular expression is read into a parse tree (implemented in regex_parse.cpp) - I didn't 
+	actually explain how this part is done, but you can trust me (and I hope you verified !) that
+	it works.</li>
+	<li>A NFA is built from the regular expression, using Thompson's Construction (implemented in
+	nfa.h/cpp)</li>
+	<li>The NFA is converted to a DFA, using the Subset Construction algorithm (implemented in
+	subset_construct.h/cpp and dfa.h)</li>
+	<li>The resulting DFA is simulated using the DFA simulation algorithm (implemented in dfa.h)</li>
+</ol> 
+A small main function is implemented in regex_parse.cpp. It reads a regex and a string as arguments,
+and says whether the string fits the regex. It does it by going through the steps mentioned
+above, so I advise you to take a look at it and make sure that you understand the order in which
+things are called.
+<p>
+I hope you enjoyed this series, and got some insight into the important topics of regular expressions
+and Finite Automata (Deterministic and Non-Deterministic). Next time we'll talk about other things, but
+for now, "See ya" and, as always, questions/feedback/comments are most welcome.
+
+
+
+</p><div id="goog_qs_tidbit_box" class="notranslate"><div id="goog_qs-wrapper"><div id="goog_qs-box-toggle" title="Open Google Quick Scroll" style="background-image: url(chrome-extension://okanipcmceoeemlbjnmnbdibhgpbllgc/images/icon16x16.png);"></div><div id="goog_qs-box-help" title="Open the help and options page" style="background-image: url(chrome-extension://okanipcmceoeemlbjnmnbdibhgpbllgc/images/help.png);"></div><div id="goog_qs-box-info" style="background-image: url(chrome-extension://okanipcmceoeemlbjnmnbdibhgpbllgc/images/icon16x16.png);"><span class="goog_qs-nowrap">M<img>atches</span> <span class="goog_qs-nowrap">i<img>n</span> <span class="goog_qs-nowrap">p<img>age</span> <span class="goog_qs-nowrap">f<img>or</span> <span class="goog_qs-query"><span class="goog_qs-nowrap">n<img>fa</span> <span class="goog_qs-nowrap">t<img>o</span> <span class="goog_qs-nowrap">d<img>fa</span> <span class="goog_qs-nowrap">s<img>ubset</span> <span class="goog_qs-nowrap">c<img>onstruction</span></span></div><div id="goog_qs-box-tidbits"><div class="goog_qs-box-tidbit" title="Click to see this text in the page"><span class="goog_qs-nowrap">T<img>he</span> <span class="goog_qs-nowrap">a<img>lgorithm</span> <span class="goog_qs-nowrap">f<img>or</span> <span class="goog_qs-nowrap">c<img>onstructing</span> <span class="goog_qs-nowrap">f<img>rom</span> a <em><span class="goog_qs-nowrap">N<img>FA</span></em> a <em><span class="goog_qs-nowrap">D<img>FA</span></em> <span class="goog_qs-nowrap">t<img>hat</span> <span class="goog_qs-nowrap">r<img>ecognizes</span> <span class="goog_qs-nowrap">t<img>he</span> <span class="goog_qs-nowrap">t<img>he</span> <span class="goog_qs-nowrap">s<img>ame</span> <span class="goog_qs-nowrap">l<img>anguage</span> <span class="goog_qs-nowrap">i<img>s</span> <span class="goog_qs-nowrap">c<img>alled</span> "<em><span class="goog_qs-nowrap">S<img>ubset</span> <span class="goog_qs-nowrap">C<img>onstruction</span></em>". <span class="goog_qs-nowrap">T<img>he</span> <span class="goog_qs-nowrap">m<img>ain</span> <span class="goog_qs-nowrap">i<img>dea</span> <span class="goog_qs-nowrap">o<img>f</span> <span class="goog_qs-nowrap">t<img>his</span> <span class="goog_qs-nowrap">a<img>lgorithm</span> <span class="goog_qs-nowrap">i<img>s</span> <span class="goog_qs-nowrap">i<img>n</span> <span class="goog_qs-nowrap">t<img>he</span><wbr>&nbsp;... <span class="goog_qs-go">»</span></div></div><div id="goog_qs-box-bottom"><div class="goog_qs-more-matches" id="goog_qs-box-more-tidbits"><span class="goog_qs-nowrap">M<img>ore</span> <span class="goog_qs-nowrap">m<img>atches</span> <span class="goog_qs-go">»</span></div><div class="goog_qs-more-matches" id="goog_qs-box-fewer-tidbits" style="display:none"><span class="goog_qs-go">«</span>  <span class="goog_qs-nowrap">F<img>ewer</span> <span class="goog_qs-nowrap">m<img>atches</span></div></div><div style="clear:both"></div></div></div></body></html>

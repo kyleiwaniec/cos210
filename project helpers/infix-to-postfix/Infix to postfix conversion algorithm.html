@@ -1,0 +1,586 @@
+
+<!-- saved from url=(0050)http://csis.pace.edu/~wolf/CS122/infix-postfix.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<meta name="Generator" content="Microsoft Word 97">
+<title>Infix to postfix conversion algorithm</title>
+<meta name="Template" content="D:\PROGRAM FILES\MICROSOFT OFFICE\OFFICE\html.dot">
+</head>
+<body link="#0000ff" vlink="#800080" bgcolor="#FFFFFF">
+<p>Infix to postfix conversion algorithm</p>
+<p>There is an algorithm to convert an infix expression into a postfix expression. It uses a stack; but in this case, the stack is used to hold operators rather than numbers. The purpose of the stack is to reverse the order of the operators in the expression. It also serves as a storage structure, since no operator can be printed until both of its operands have appeared.</p>
+<p>In this algorithm, all operands are printed (or sent to output) when they are read. There are more complicated rules to handle operators and parentheses.</p>
+<p>Example:</p>
+<p>1. A * B + C becomes A B * C +</p>
+<p>The order in which the operators appear is not reversed. When the '+' is read, it has lower precedence than the '*', so the '*' must be printed first.</p>
+<p>We will show this in a table with three columns. The first will show the symbol currently being read. The second will show what is on the stack and the third will show the current contents of the postfix string. The stack will be written from left to right with the 'bottom' of the stack to the left.</p>
+<table cellspacing="0" border="0" cellpadding="7" width="655">
+<tbody><tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>current symbol</p></td>
+<td width="19%" valign="TOP">
+<p>operator stack</p></td>
+<td width="55%" valign="TOP">
+<p>postfix string</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>&nbsp;</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">1</p></td>
+<td width="17%" valign="TOP">
+<p>A</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">2</p></td>
+<td width="17%" valign="TOP">
+<p>*</p></td>
+<td width="19%" valign="TOP">
+<p>*</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">3</p></td>
+<td width="17%" valign="TOP">
+<p>B</p></td>
+<td width="19%" valign="TOP">
+<p>*</p></td>
+<td width="55%" valign="TOP">
+<p>A B </p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">4</p></td>
+<td width="17%" valign="TOP">
+<p>+</p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="55%" valign="TOP">
+<p>A B * {pop and print the '*' before pushing the '+'}</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">5</p></td>
+<td width="17%" valign="TOP">
+<p>C </p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="55%" valign="TOP">
+<p>A B * C</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">6</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A B * C +</p></td>
+</tr>
+</tbody></table>
+
+<p>&nbsp;</p>
+<p>The rule used in lines 1, 3 and 5 is to print an operand when it is read. The rule for line 2 is to push an operator onto the stack if it is empty. The rule for line 4 is if the operator on the top of the stack has higher precedence than the one being read, pop and print the one on top and then push the new operator on. The rule for line 6 is that when the end of the expression has been reached, pop the operators on the stack one at a time and print them.</p>
+<p>2. A + B * C becomes A B C * +</p>
+<p>Here the order of the operators must be reversed. The stack is suitable for this, since operators will be popped off in the reverse order from that in which they were pushed.</p>
+<p>&nbsp;</p>
+<table cellspacing="0" border="0" cellpadding="7" width="655">
+<tbody><tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>current symbol</p></td>
+<td width="19%" valign="TOP">
+<p>operator stack</p></td>
+<td width="55%" valign="TOP">
+<p>postfix string</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>&nbsp;</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">1</p></td>
+<td width="17%" valign="TOP">
+<p>A</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">2</p></td>
+<td width="17%" valign="TOP">
+<p>+</p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">3</p></td>
+<td width="17%" valign="TOP">
+<p>B</p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="55%" valign="TOP">
+<p>A B </p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">4</p></td>
+<td width="17%" valign="TOP">
+<p>*</p></td>
+<td width="19%" valign="TOP">
+<p>+ *</p></td>
+<td width="55%" valign="TOP">
+<p>A B </p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">5</p></td>
+<td width="17%" valign="TOP">
+<p>C </p></td>
+<td width="19%" valign="TOP">
+<p>+ *</p></td>
+<td width="55%" valign="TOP">
+<p>A B C</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">6</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A B C * +</p></td>
+</tr>
+</tbody></table>
+
+<p>In line 4, the '*' sign is pushed onto the stack because it has higher precedence than the '+' sign which is already there. Then when the are both popped off in lines 6 and 7, their order will be reversed.</p>
+<p>3. A * (B + C) becomes A B C + *</p>
+<p>A subexpression in parentheses must be done before the rest of the expression.</p>
+<p>&nbsp;</p>
+<table cellspacing="0" border="0" cellpadding="7" width="655">
+<tbody><tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>current symbol</p></td>
+<td width="19%" valign="TOP">
+<p>operator stack</p></td>
+<td width="55%" valign="TOP">
+<p>postfix string</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>&nbsp;</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">1</p></td>
+<td width="17%" valign="TOP">
+<p>A</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">2</p></td>
+<td width="17%" valign="TOP">
+<p>*</p></td>
+<td width="19%" valign="TOP">
+<p>*</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">3</p></td>
+<td width="17%" valign="TOP">
+<p>(</p></td>
+<td width="19%" valign="TOP">
+<p>* (</p></td>
+<td width="55%" valign="TOP">
+<p>A B </p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">4</p></td>
+<td width="17%" valign="TOP">
+<p>B</p></td>
+<td width="19%" valign="TOP">
+<p>* (</p></td>
+<td width="55%" valign="TOP">
+<p>A B</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">5</p></td>
+<td width="17%" valign="TOP">
+<p>+ </p></td>
+<td width="19%" valign="TOP">
+<p>* ( +</p></td>
+<td width="55%" valign="TOP">
+<p>A B</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">6</p></td>
+<td width="17%" valign="TOP">
+<p>C</p></td>
+<td width="19%" valign="TOP">
+<p>* ( +</p></td>
+<td width="55%" valign="TOP">
+<p>A B C</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">7</p></td>
+<td width="17%" valign="TOP">
+<p>)</p></td>
+<td width="19%" valign="TOP">
+<p>*</p></td>
+<td width="55%" valign="TOP">
+<p>A B C +</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">8</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A B C + *</p></td>
+</tr>
+</tbody></table>
+
+<p>Since expressions in parentheses must be done first, everything on the stack is saved and the left parenthesis is pushed to provide a marker. When the next operator is read, the stack is treated as though it were empty and the new operator (here the '+' sign) is pushed on. Then when the right parenthesis is read, the stack is popped until the corresponding left parenthesis is found. Since postfix expressions have no parentheses, the parentheses are not printed.</p>
+<p>4. A - B + C becomes A B - C +</p>
+<p>When operators have the same precedence, we must consider association. Left to right association means that the operator on the stack must be done first, while right to left association means the reverse.</p>
+<table cellspacing="0" border="0" cellpadding="7" width="655">
+<tbody><tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>current symbol</p></td>
+<td width="19%" valign="TOP">
+<p>operator stack</p></td>
+<td width="55%" valign="TOP">
+<p>postfix string</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>&nbsp;</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">1</p></td>
+<td width="17%" valign="TOP">
+<p>A</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">2</p></td>
+<td width="17%" valign="TOP">
+<p>-</p></td>
+<td width="19%" valign="TOP">
+<p>-</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">3</p></td>
+<td width="17%" valign="TOP">
+<p>B</p></td>
+<td width="19%" valign="TOP">
+<p>-</p></td>
+<td width="55%" valign="TOP">
+<p>A B </p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">4</p></td>
+<td width="17%" valign="TOP">
+<p>+</p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="55%" valign="TOP">
+<p>A B -</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">5</p></td>
+<td width="17%" valign="TOP">
+<p>C </p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="55%" valign="TOP">
+<p>A B - C</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">6</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A B - C +</p></td>
+</tr>
+</tbody></table>
+
+<p>In line 4, the '-' will be popped and printed before the '+' is pushed onto the stack. Both operators have the same precedence level, so left to right association tells us to do the first one found before the second.</p>
+<p>5. A * B ^ C + D becomes A B C ^ * D +</p>
+<p>Here both the exponentiation and the multiplication must be done before the addition. </p>
+<table cellspacing="0" border="0" cellpadding="7" width="655">
+<tbody><tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>current symbol</p></td>
+<td width="19%" valign="TOP">
+<p>operator stack</p></td>
+<td width="55%" valign="TOP">
+<p>postfix string</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>&nbsp;</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">1</p></td>
+<td width="17%" valign="TOP">
+<p>A</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">2</p></td>
+<td width="17%" valign="TOP">
+<p>*</p></td>
+<td width="19%" valign="TOP">
+<p>*</p></td>
+<td width="55%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">3</p></td>
+<td width="17%" valign="TOP">
+<p>B</p></td>
+<td width="19%" valign="TOP">
+<p>*</p></td>
+<td width="55%" valign="TOP">
+<p>A B </p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">4</p></td>
+<td width="17%" valign="TOP">
+<p>^</p></td>
+<td width="19%" valign="TOP">
+<p>* ^</p></td>
+<td width="55%" valign="TOP">
+<p>A B </p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">5</p></td>
+<td width="17%" valign="TOP">
+<p>C </p></td>
+<td width="19%" valign="TOP">
+<p>* ^</p></td>
+<td width="55%" valign="TOP">
+<p>A B C</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">6</p></td>
+<td width="17%" valign="TOP">
+<p>+</p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="55%" valign="TOP">
+<p>A B C ^ *</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">7</p></td>
+<td width="17%" valign="TOP">
+<p>D</p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="55%" valign="TOP">
+<p>A B C ^ * D</p></td>
+</tr>
+<tr><td width="8%" valign="TOP">
+<p align="CENTER">8</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="55%" valign="TOP">
+<p>A B C ^ * D +</p></td>
+</tr>
+</tbody></table>
+
+<p>										</p>
+<p>When the '+' is encountered in line 6, it is first compared to the '^' on top of the stack. Since it has lower precedence, the '^' is popped and printed. But instead of pushing the '+' sign onto the stack now, we must compare it with the new top of the stack, the '*'. Since the operator also has higher precedence than the '+', it also must be popped and printed. Now the stack is empty, so the '+' can be pushed onto the stack.</p>
+<p>6. A * (B + C * D) + E becomes A B C D * + * E +</p>
+<table cellspacing="0" border="0" cellpadding="7" width="654">
+<tbody><tr><td width="11%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>current symbol</p></td>
+<td width="19%" valign="TOP">
+<p>operator stack</p></td>
+<td width="52%" valign="TOP">
+<p>postfix string</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="52%" valign="TOP">
+<p>&nbsp;</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">1</p></td>
+<td width="17%" valign="TOP">
+<p>A</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="52%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">2</p></td>
+<td width="17%" valign="TOP">
+<p>*</p></td>
+<td width="19%" valign="TOP">
+<p>*</p></td>
+<td width="52%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">3</p></td>
+<td width="17%" valign="TOP">
+<p>(</p></td>
+<td width="19%" valign="TOP">
+<p>* (</p></td>
+<td width="52%" valign="TOP">
+<p>A</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">4</p></td>
+<td width="17%" valign="TOP">
+<p>B</p></td>
+<td width="19%" valign="TOP">
+<p>* (</p></td>
+<td width="52%" valign="TOP">
+<p>A B</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">5</p></td>
+<td width="17%" valign="TOP">
+<p>+</p></td>
+<td width="19%" valign="TOP">
+<p>* ( +</p></td>
+<td width="52%" valign="TOP">
+<p>A B</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">6</p></td>
+<td width="17%" valign="TOP">
+<p>C</p></td>
+<td width="19%" valign="TOP">
+<p>* ( +</p></td>
+<td width="52%" valign="TOP">
+<p>A B C</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">7</p></td>
+<td width="17%" valign="TOP">
+<p>*</p></td>
+<td width="19%" valign="TOP">
+<p>* ( + *</p></td>
+<td width="52%" valign="TOP">
+<p>A B C</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">8</p></td>
+<td width="17%" valign="TOP">
+<p>D</p></td>
+<td width="19%" valign="TOP">
+<p>* ( + *</p></td>
+<td width="52%" valign="TOP">
+<p>A B C D</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">9</p></td>
+<td width="17%" valign="TOP">
+<p>)</p></td>
+<td width="19%" valign="TOP">
+<p>*</p></td>
+<td width="52%" valign="TOP">
+<p>A B C D * +</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">10</p></td>
+<td width="17%" valign="TOP">
+<p>+</p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="52%" valign="TOP">
+<p>A B C D * + * </p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">11</p></td>
+<td width="17%" valign="TOP">
+<p>E</p></td>
+<td width="19%" valign="TOP">
+<p>+</p></td>
+<td width="52%" valign="TOP">
+<p>A B C D * + * E</p></td>
+</tr>
+<tr><td width="11%" valign="TOP">
+<p align="CENTER">12</p></td>
+<td width="17%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="19%" valign="TOP">
+<p>&nbsp;</p></td>
+<td width="52%" valign="TOP">
+<p>A B C D * + * E +</p></td>
+</tr>
+</tbody></table>
+
+<p>A summary of the rules follows:</p>
+<p>1.	Print operands as they arrive.</p>
+<p>2.	If the stack is empty or contains a left parenthesis on top, push the incoming operator onto the stack.</p>
+<p>3.	If the incoming symbol is a left parenthesis, push it on the stack.</p>
+<p>4.	If the incoming symbol is a right parenthesis, pop the stack and print the operators until you see a left parenthesis. Discard the pair of parentheses.</p>
+<p>5.	If the incoming symbol has higher precedence than the top of the stack, push it on the stack.</p>
+<p>6.	If the incoming symbol has equal precedence with the top of the stack, use association. If the association is left to right, pop and print the top of the stack and then push the incoming operator. If the association is right to left, push the incoming operator.</p>
+<p>7.	If the incoming symbol has lower precedence than the symbol on the top of the stack, pop the stack and print the top operator. Then test the incoming operator against the new top of stack.</p>
+<p>8.	At the end of the expression, pop and print all operators on the stack. (No parentheses should remain.)</p>
+<p>&nbsp;</p>
+
+</body></html>

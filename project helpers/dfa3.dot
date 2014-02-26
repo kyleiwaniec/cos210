@@ -1,0 +1,25 @@
+// Format this file as a Postscript file with 
+//    dot dfa3.dot -Tps -o out.ps
+
+digraph dfa {
+size="11,8.25";
+rotate=90;
+rankdir=LR;
+n999999 [style=invis];
+n999999 -> n0
+n2 [peripheries=2];
+n0 -> n1 [label=A];
+n0 -> n5 [label=B];
+n1 -> n1 [label=A];
+n1 -> n3 [label=B];
+n2 -> n6 [label=A];
+n2 -> n4 [label=B];
+n3 -> n6 [label=A];
+n3 -> n4 [label=B];
+n4 -> n6 [label=A];
+n4 -> n4 [label=B];
+n5 -> n1 [label=A];
+n5 -> n5 [label=B];
+n6 -> n6 [label=A];
+n6 -> n2 [label=B];
+}

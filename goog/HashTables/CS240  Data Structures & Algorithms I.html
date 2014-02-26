@@ -1,0 +1,973 @@
+
+<!-- saved from url=(0066)http://www.csupomona.edu/~ftang/courses/CS240/lectures/hashing.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>CS240: Data Structures &amp; Algorithms I</title>
+</head>
+
+<body bgcolor="#FFFFFF" link="#003399" vlink="#003366" alink="#660000" class="goog_qs-closed">
+
+<h2 align="left"><b>CS240 -- Lecture Notes: Hashing</b></h2>
+<div align="center">
+  <center>
+  <table border="0" width="100%" height="20">
+    <tbody><tr>
+      <td width="50%" height="20"><b><a href="http://www.csupomona.edu/~ftang/">Daisy Tang</a></b>
+      </td>
+  
+      <td width="50%" height="20">
+        <p align="right"><a href="http://www.csupomona.edu/~ftang/courses/CS240/notes.htm">Back To Lectures Notes</a></p></td>
+    </tr>
+  </tbody></table>
+</center></div>
+
+<hr>
+
+<table border="0" width="100%">
+  <tbody><tr>
+    <td width="100%" bordercolor="#CCE6FF" bgcolor="#CCE6FF"><b><font size="4">Introduction to Hashing</font></b></td>
+  </tr>
+  <tr>
+    <td width="100%">
+<p>Hashing is a method of turning some kind of data into a relatively small
+number that may serve as a digital "<span style="background-color: #FFFF00">fingerprint</span>" of the data. The
+hashing algorithm manipulates the data to create such fingerprints, called <span style="background-color: #FFFF00"> hash
+values</span>.
+These hash values are usually used as indices into hash tables. Remember that
+indexing into an array only takes O(1) time, thus if we could have a fast
+hashing algorithm to generate the index corresponding to the data (<span style="background-color: #FFFF00">keys +
+values</span>), then we could achieve constant time for the basic operations in a map.
+The array itself is called a <b>hash table</b>. For example, the 911 emergency
+system can take your phone number, convert it to a suitable integer <i>i</i>,
+and store a reference to your street address in the array element <i>A</i>[<i>i</i>].
+We say that the telephone number (the search key) maps or hashes to the index <i>i</i>.</p>
+<p>In general, a
+hash table consists of two major components, a <b><span style="background-color: #FFFF00">bucket array</span></b> and a <b><span style="background-color: #FFFF00">hash
+function</span></b>, where a bucket array is used to store the data (key-value 
+entries) according to their computed indices and a hash function <i>h</i> maps keys of a given type to integers in a fixed
+interval [0, <i>N</i>-1]. For example: <i>h</i>(<i>x</i>) = <i>x</i> mod <i>N</i> is a hash function for integer
+    keys and the integer <i>h</i>(<i>x</i>) is called the hash value of key <i>x</i>.</p>
+<p>Hash functions are designed to be <span style="background-color: #FFFF00"> fast</span> and to yield
+<span style="background-color: #FFFF00"> few hash collisions</span> in
+expected input domains. Collisions are inevitable, however. In hash tables, collisions inhibit the distinguishing of
+data, making records more costly to find. As we will see, the worst-case running
+time of map operations in an <i>n</i>-entry hash table is O(<i>n</i>), a hash
+table can usually perform these operations in O(1) expected time.</p>
+<p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#CCE6FF"><b><font size="4">Bucket Arrays</font></b></td>
+  </tr>
+  <tr>
+    <td width="100%">
+<p>A <b>bucket array</b> for a hash table is an array <i>A</i> of size <i>N</i>,
+where each cell of <i>A</i> is thought of as a "bucket" (that is, a
+collection of key-value pairs) and the integer <i>N</i> defines the <b>capacity</b>
+of the array. An entry <i>e</i> with a key <i>k</i> is simply inserted into the
+bucket <i>A</i>[<i>h</i>(<i>k</i>)], where <i>h</i>(<i>x</i>) is a hash
+function.</p>
+<p>If each <i>h</i>(<i>k</i>) returns a unique integer in the range [0, <i>N</i> - 1], then each
+bucket holds at most one entry. Thus, searches, insertions, and removals in the
+bucket array take O(1) time.</p>
+<p>Drawbacks?</p>
+<p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#CCE6FF"><b><font size="4">Hash Functions</font></b></td>
+  </tr>
+  <tr>
+    <td width="100%">
+<p>A hash function maps each key to an integer in the range [0, <i>N</i> -1],
+where <i>N</i> is the capacity of the bucket array for the hash table. The main
+idea is to use the hash value, <i>h</i>(<i>k</i>), as an index into our bucket
+array, <i>A</i>, instead of the key <i>k</i> (which is most likely inappropriate
+for use as a bucket array index). That is, we store the entry (<i>k</i>, <i>v</i>)
+in the bucket <i>A</i>[<i>h</i>(<i>k</i>)].</p>
+<p>A hash function is usually specified as the composition of two functions:</p>
+<ul>
+  <li><font color="#0000FF">Hash code</font>: <i>h</i><sub>1</sub>: keys --&gt;
+    integers</li>
+  <li><font color="#0000FF">Compression function</font>: <i>h</i><sub>2</sub>:
+    integers --&gt; [0, <i>N</i>-1]</li>
+</ul>
+<p>The hash code is applied first, and the compression function is applied next
+on the result, i.e., <i>h</i>(<i>x</i>) = <i>h</i><sub>2</sub>(<i>h</i><sub>1</sub>(<i>x</i>)).&nbsp;</p>
+<p>Example: design a hash table for a map storing entries as (SSN, Name), where
+SSN is a 9-digit positive integer.</p>
+<p>Potential problems?</p>
+<p>If there are two or more keys with the same hash value, then two different
+entries will be mapped to the same bucket in <i>A</i>. In this case, we say a <b>collision</b>
+has occurred. The way to handle collisions is: (1) avoid them; and (2) handle
+them.</p>
+<p>Any function can be a hash function if it produces an integer that is
+suitable as an array index. But not every function is a good hash function. A
+good hash function should:</p>
+<ul>
+  <li> "Distribute" the entries uniformly throughout the hash table to
+    minimize collisions</li>
+  <li>Be fast to compute</li>
+</ul>
+<p><b><font size="3"><u>Hash Codes</u></font></b></p>
+<p>The first action that a hash function performs is to take an arbitrary key <i>k</i>
+and assign it an integer value, which is called the <b>hash code</b> for <i>k</i>.
+This integer needs not be in the range [0, <i>N</i>-1], and may even be negative.
+The goal is to generate a set of hash codes assigned to our keys that avoid
+collisions as much as possible. <span class="goog_qs-tidbit goog_qs-tidbit-0">For if the hash codes of our keys cause
+collisions, then there is no hope for our compression function to avoid them. In
+addition, the same keys should result in</span> the same hash code.</p>
+<p><b><span style="background-color: #FFFF00">Memory address</span></b>: We reinterpret the memory address of the key object as
+an integer. The generic Object class defined in Java comes with a default <font color="#0000FF">
+<a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html#hashCode()">hashCode()</a></font><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Object.html#hashCode()"> method</a> that maps each object instance to an integer that is a representation of
+that object. Since every class is a subclass of Object, all classes inherit this
+method. But unless a class overrides hashCode(), the method will return an <b>int</b>
+value based on the invoking object's memory address. The default hash code
+usually is not appropriate for hashing, because equal but distinct objects will
+have different hash codes.</p>
+<p>Good in general, but works poorly with numeric numbers, character strings,
+etc.&nbsp;</p>
+<p>In fact, the Java String class overrides the hashCode method of the Object
+class to be something more appropriate for character strings.</p>
+<p><b><span style="background-color: #FFFF00">Casting to an Integer</span></b>: 
+We interpret the bits of the key as an integer.
+For example, for Java base types <b>byte</b>, <b>short</b>, <b>int</b>, <b>char</b>,
+and <b>float</b>, we can achieve a good hash code simply by casting this type
+into <b>int</b>. For a variable <i>x</i> of a base type <b>float</b>, we can
+convert <i>x</i> to an integer using a call to Float.floatToIntBits(<i>x</i>).&nbsp;</p>
+<p>Suitable for keys of lengths less than or equal to the number of bits of the
+integer type (the above base types).</p>
+<p>A class should define its own version of hashCode that adheres to the
+following guidelines:</p>
+<ul>
+  <li>If a class overrides the method equals, it should override hashCode.</li>
+  <li>If the method equals considers two objects equal, hashCode must return the
+    same value for both objects.</li>
+  <li>If an object invokes hashCode more than once during the execution of a
+    program, and if the object's data remains the same during this time,
+    hashCode must return the same hash code.</li>
+  <li>An object's hash code during one execution of a program can differ from
+    its hash code during another execution of the same program.</li>
+</ul>
+<p>Let's take a look at an example <a href="http://www.csupomona.edu/~ftang/courses/CS240/lectures/code/Ex1.htm">Ex1.java</a> for using
+the hashCode() methods provided.</p>
+<p><b><span style="background-color: #FFFF00">Summing components</span></b>: We partition the bits of the key into components
+of a fixed length (e.g., 16 or 32 bits) and we sum the components (ignoring
+overflows). For base types, such as <b>long</b> and <b>double</b>, whose bit 
+representation is double that of a hash code, the previous approaches would not 
+be appropriate. By casting a long to an integer, ignoring half of the 
+information present in the original value, there will be many collisions if 
+those numbers only differ in the bits being ignored. Instead of ignoring a part of a long
+search key, we can divide it into several pieces, then combine the pieces by
+using either <b>addition</b> or a bit-wise operation such as <b>exclusive or</b>.</p>
+<p> An alternative hash code is to sum an
+integer representation of the high-order bits with an integer representation of
+the low-order bits.</p>
+<p><font color="#0000FF"><b>static int</b> hashCode(<b>long</b> i) {<b>return</b>
+(<b>int</b>)((i &gt;&gt;&gt; 32) + (<b>int</b>) i);}</font></p>
+<p><font color="#0000FF">
+<b>static int</b> hashCode(<b>Double</b> d) {<br>
+<b>&nbsp; long</b> bits = Double.doubleToLongBits(d);<br>
+<b>&nbsp; return</b> (int) (bits ^ (bits &gt;&gt;&gt; 32));<br>
+}<br>
+</font><br>
+This approach of summing components can be further extended to any object <i>x</i>
+whose binary representation can be viewed as a <i>k</i>-tuple (<i>x</i><sub>0</sub>,
+<i>x</i><sub>1</sub>, ..., <i>x</i><sub><i>k</i>-1</sub>) of integers, for we
+can then form a hash code by summing <i>x<sub>i</sub></i>.
+</p><p>Suitable for numeric keys of a fixed length greater than or equal to the number
+of bits of the integer type (<b>long</b> and <b>double</b>).&nbsp;</p>
+<p>These computations of hash codes for the primitive types are actually used by
+the corresponding wrapper classes in their implementations of the method
+hashCode.</p>
+<p><b><span style="background-color: #FFFF00">Polynomial hash codes</span></b>: The summation hash code, described above, is
+not a good choice for character strings or other variable-length objects that
+can be viewed as a tuple of (<i>x</i><sub>0</sub>, <i>x</i><sub>1</sub>, ..., <i>x</i><sub><i>k</i>-1</sub>), 
+where the order of <i>x<sub>i</sub></i>'s is significant. For example, the
+strings "stop" and "pots" collide using the above hash
+function. A better hash code should take into account the positions of <i>x<sub>i</sub></i>'s.</p>
+<p>We choose a nonzero constant, <i>a</i> != 1, and calculate (<i>x</i><sub>0</sub><i>a</i><sup><i>k</i>-1</sup>+
+<i>x</i><sub>1</sub><i>a</i><sup><i>k</i>-2</sup>+ ...+ <i>x</i><sub>k-2</sub><i>a</i>+
+<i>x</i><sub><i>k</i>-1</sub>) as the hash code, ignoring overflows.
+Mathematically speaking, this is simply a polynomial in <i>a</i> that takes the
+components (<i>x</i><sub>0</sub>, <i>x</i><sub>1</sub>, ..., <i>x</i><sub><i>k</i>-1</sub>)
+of an object <i>x</i> as its coefficients. Since we are more interested in a
+good spread of the object <i>x</i> with respect to other keys, we simply ignore
+such overflows.</p>
+<p>Experiments have shown that 33, 37, 39, and 41 are particularly good choices
+for <i>a</i> when working with character strings that are English words. In
+fact, in a list of over 50,000 English words, taking <i>a</i> to be 33, 37, 39,
+or 41 produced less than 7 collisions in each case.</p>
+<p> Many
+Java implementations choose the polynomial hash function, using one of these
+constants for <i>a</i>, as a default hash code for strings. For the sake of
+speed, however, some Java implementations only apply the polynomial hash
+function to a fraction of the characters in long strings.</p>
+<p>How to evaluate the polynomial? What's the running time? -- By using the Horner's
+rule. Here is the <a href="http://www.csupomona.edu/~ftang/courses/CS240/lectures/code/Ex1.htm#horner">code</a> performing this
+evaluation for a string <i>s</i> and a constant <i>a</i>. Your default <font color="#0000FF">String.hashCode()</font>
+uses <i>a</i> = 31 (<a href="http://www.csupomona.edu/~ftang/courses/CS240/lectures/code/Ex1.htm#ex2">Ex2.java</a>).</p>
+<p>This computation can cause an overflow, especially for long strings. Java
+ignores these overflows and, for an appropriate choice of <i>a</i>, the result
+will be a reasonable hash code. The current implementation of the method
+hashCode in Java's class String uses this computation.</p>
+<b><span style="background-color: #FFFF00">Cyclic shift hash codes</span></b>: A variant of the polynomial hash code
+replaces multiplication by <i>a</i> with a cyclic shift of a partial sum by a
+certain number of bits.&nbsp;
+<code><br>
+<font color="#0000FF"><b>static int</b> hashCode(<b>String</b> s) {<br>
+  <b>&nbsp; int</b> h = 0;<br>
+  <b>&nbsp; for</b> (<b>int</b> i = 0; i &lt; s.length(); i++) {<br>
+    &nbsp;&nbsp;&nbsp; h = (h &lt;&lt; 5) | (h &gt;&gt;&gt; 27); // 5-bit cyclic shift of the running sum<br>
+    &nbsp;&nbsp;&nbsp; h += (<b>int</b>) s.charAt(i); // add in next character<br>
+  &nbsp;
+  }<br>
+  <b>&nbsp; return</b> h;<br>
+}</font>
+</code>
+
+<p>Experiments have been done to calculate the number of collisions over 25,000
+English words. It is shown that 5, 6, 7, 9, and 13 are good choices of shift
+values.</p>
+<p><b><u>Compression Functions</u></b></p>
+<p>The hash code for a key <i>k</i> will typically not be suitable for an immediate
+use with a bucket array since the hash code may be out of bounds. We still need
+to map the hash code into range [0, <i>N</i>-1]. The goal is to have a
+compression function that minimizes the possible number of collisions in a given
+set of hash codes.</p>
+<p><b><span style="background-color: #FFFF00">The Division method</span></b>: <font color="#0000FF"><i>h</i><sub>2</sub>(<i>y</i>)
+= <i>y</i> mod <i>N</i></font>.</p>
+<p>The size <i>N</i> of the hash table is usually chosen to be a prime number,
+to help "spread out" the distribution of hash values. For example,
+think about the hash values {200, 205, 210, 215, 220, ..., 600} with <i>N</i> =
+100 or 101. The reason has to do with the number theory and is beyond the scope of
+this course. Choosing <i>N</i> to be a prime number is not always enough, for if
+there is a repeated pattern of hash codes of the form <i>pN</i> + <i>q</i> for
+several different <i>p</i>'s, then there will still be collisions.</p>
+<p><b><span style="background-color: #FFFF00">The MAD method</span></b>: <font color="#0000FF"><i>h</i><sub>2</sub>(<i>y</i>) =
+[(<i>ay</i> + <i>b</i>) mod <i>p</i>] mod <i>N</i></font>, where <i>N</i> is the
+size of the hash table, <i>p</i> is a prime number larger than <i>N</i>, and <i>a</i>
+and <i>b</i> are integers chosen at random from the interval [0, <i>p</i>-1],
+with <i>a</i> &gt; 0.</p>
+<p>With the above hash functions, the implementation of methods <i>get</i>, <i>put</i>,
+and <i>remove</i> can be easily implemented.</p>
+
+<code>
+<font color="#0000FF">Entry <b>get</b>(key) {<br>
+	&nbsp;
+	int h = key.hashCode(); // convert the key to an integer<br>
+	&nbsp;
+	h = compressHashCode(h, hashTable.length); // limit the hash code to be within [0, N] <br>
+	&nbsp;
+	return hashTable[h];<br>
+}<br><br>
+
+Value <b>put</b>(Entry newEntry) {<br>
+	&nbsp;
+	int h = newEntry.key.hashCode(); // convert the key to an integer<br>
+	&nbsp;
+	h = compressHashCode(h, hashTable.length); // limit the hash code to be within [0, N] <br><br>
+	
+	&nbsp;
+	
+	if (hashTable[h] != null) { Value oldValue = hashTable[h].value; }<br>
+	&nbsp;
+	hashTable[h].value = newEntry.value;<br>
+	&nbsp;
+	hashTable[h].key = newEntry.key;<br><br>
+	
+	&nbsp;
+	
+	return oldValue;<br>
+}<br><br>
+
+Entry <b>remove</b>(Entry e) {<br>
+	&nbsp;
+	int h = e.key.hashCode(); // convert the key to an integer<br>
+	&nbsp;
+	h = compressHashCode(h, hashTable.length); // limit the hash code to be within [0, N]<br><br>
+	
+	&nbsp;
+	
+	if (hashTable[h] == null) return null;<br>
+	&nbsp;
+	Entry oldEntry = hashTable[h].copy();<br>
+	&nbsp;
+	hashTable[h] = null;<br>
+	&nbsp;
+	return oldEntry;<br>
+}<br>
+</font>
+</code>
+
+<p><b><u>Evaluating Hashing Functions</u></b></p>
+
+<p>Now, I am going to evaluate the various hashing functions for strings. The
+following five hashing functions will be considered:</p>
+<ol>
+  <li>t1: using the length of the string as its hash value</li>
+  <li>t2: adding the components of the string as its hash value</li>
+  <li>t3: hashing the first three characters of the string with polynomial
+    hashing</li>
+  <li>t4: hashing the who string with polynomial hashing</li>
+  <li>t5: bit shifting by 5 bits</li>
+</ol>
+<p>The compression function just simply uses the division method. The input file
+(<a href="http://www.csupomona.edu/~ftang/courses/CS240/lectures/code/input1.txt">input1.txt)</a> is a list of 4000 random names. The
+input file (<a href="http://www.csupomona.edu/~ftang/courses/CS240/lectures/code/input2.txt">input2.txt</a>) is a list of 4000 unique
+words from the C code. Here is the code for comparing the above 5 hashing
+functions (<a href="http://www.csupomona.edu/~ftang/courses/CS240/lectures/code/compare.htm">Compare.java</a>).&nbsp;The following data
+measures the percentage of collisions.</p>
+<table border="1">
+  <colgroup><col width="64" span="5" style="width:48pt">
+  </colgroup><tbody><tr height="17" style="height:12.75pt">
+    <td height="17" class="xl24" width="64" style="height:12.75pt;width:48pt"><b>t1</b></td>
+    <td colspan="4" class="xl25" width="256" style="border-right:1.0pt solid black;
+  border-left:none;width:192pt">Hash Table Size</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">&nbsp;</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">4000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">8000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">16000</td>
+    <td class="xl29" style="border-top:none;border-left:none" x:num="">100000</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input1</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.995">99.50%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.995">99.50%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.995">99.50%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="0.995">99.50%</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input2</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.98750000000000004">98.75%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.98750000000000004">98.75%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.98750000000000004">98.75%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="0.98750000000000004">98.75%</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td colspan="5" height="17" class="xl27" style="border-right:1.0pt solid black;
+  height:12.75pt">&nbsp;</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl32" style="height:12.75pt;border-top:none"><b>t2</b></td>
+    <td colspan="4" class="xl28" style="border-right:1.0pt solid black;border-left:
+  none">Hash Table Size</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">&nbsp;</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">4000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">8000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">16000</td>
+    <td class="xl29" style="border-top:none;border-left:none" x:num="">100000</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input1</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.78400000000000003">78.40%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.78400000000000003">78.40%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.78400000000000003">78.40%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="0.78400000000000003">78.40%</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input2</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.58460000000000001">58.46%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.58460000000000001">58.46%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.58460000000000001">58.46%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="0.58460000000000001">58.46%</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td colspan="5" height="17" class="xl27" style="border-right:1.0pt solid black;
+  height:12.75pt">&nbsp;</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl32" style="height:12.75pt;border-top:none"><b>t3</b></td>
+    <td colspan="4" class="xl28" style="border-right:1.0pt solid black;border-left:
+  none">Hash Table Size</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">&nbsp;</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">4000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">8000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">16000</td>
+    <td class="xl29" style="border-top:none;border-left:none" x:num="">100000</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input1</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.85950000000000004">85.95%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.85399999999999998">85.40%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.8518">85.18%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="0.85129999999999995">85.13%</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input2</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.67910000000000004">67.91%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.64580000000000004">64.58%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.62560000000000004">62.56%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="0.60729999999999995">60.73%</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td colspan="5" height="17" class="xl27" style="border-right:1.0pt solid black;
+  height:12.75pt">&nbsp;</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl32" style="height:12.75pt;border-top:none"><b>t4</b></td>
+    <td colspan="4" class="xl28" style="border-right:1.0pt solid black;border-left:
+  none">Hash Table Size</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">&nbsp;</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">4000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">8000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">16000</td>
+    <td class="xl29" style="border-top:none;border-left:none" x:num="">100000</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input1</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.3669">36.69%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.2099">20.99%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.1115">11.15%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="2.12E-2">2.12%</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input2</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.3604">36.04%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.2109">21.09%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.11020000000000001">11.02%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="2.52E-2">2.52%</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td colspan="5" height="17" class="xl27" style="border-right:1.0pt solid black;
+  height:12.75pt">&nbsp;</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl32" style="height:12.75pt;border-top:none"><b>t5</b></td>
+    <td colspan="4" class="xl28" style="border-right:1.0pt solid black;border-left:
+  none">Hash Table Size</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">&nbsp;</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">4000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">8000</td>
+    <td class="xl28" style="border-top:none;border-left:none" x:num="">16000</td>
+    <td class="xl29" style="border-top:none;border-left:none" x:num="">100000</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" class="xl27" style="height:12.75pt;border-top:none">input1</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.37469999999999998">37.47%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.21740000000000001">21.74%</td>
+    <td class="xl30" style="border-top:none;border-left:none" x:num="0.123">12.30%</td>
+    <td class="xl31" style="border-top:none;border-left:none" x:num="2.0199999999999999E-2">2.02%</td>
+  </tr>
+  <tr height="18" style="height:13.5pt">
+    <td height="18" class="xl33" style="height:13.5pt;border-top:none">input2</td>
+    <td class="xl34" style="border-top:none;border-left:none" x:num="0.40410000000000001">40.41%</td>
+    <td class="xl34" style="border-top:none;border-left:none" x:num="0.2429">24.29%</td>
+    <td class="xl34" style="border-top:none;border-left:none" x:num="0.14499999999999999">14.50%</td>
+    <td class="xl35" style="border-top:none;border-left:none" x:num="2.4199999999999999E-2">2.42%</td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#CCE6FF"><b><font size="4">Resolving Collision</font></b></td>
+  </tr>
+  <tr>
+    <td width="100%">
+<p>The main idea of a hash table is to take a bucket array, <i>A</i>, and a hash
+function, <i>h</i>, and use them to implement a map by storing each entry (<i>k</i>,
+<i>v</i>) in the "bucket" <i>A</i>[<i>h</i>(<i>k</i>)]. This simple
+idea is challenged, however, when we have two distinct keys, <i>k</i><sub>1</sub>
+and <i>k</i><sub>2</sub>, such that <i>h</i>(<i>k</i><sub>1</sub>) = <i>h</i>(<i>k</i><sub>2</sub>).
+When two distinct keys are mapped to the same location in the hash table,
+you need to find extra spots to store the values. There are two choices:</p>
+<ul>
+  <li>Use another location in the hash table</li>
+  <li>Change the structure of the hash table so that each array location can
+    represent more than one value</li>
+</ul>
+<p><u><b><span style="background-color: #FFFF00">Open Addressing</span></b></u></p>
+<p>Finding an unused, or open, location in the hash table is called <b>open
+addressing</b>. The process of locating an open location in the hash table is
+called <b>probing</b>, and various probing techniques are available.</p>
+<p><b>Linear Probing</b>: A simple open addressing method that handles
+collisions by placing the colliding item in the next (circularly) available
+table cell. In this method, if we try to insert an entry (<i>k</i>, <i>v</i>)
+into a bucket <i>A</i>[<i>i</i>] that is already occupied, where <i>i</i> = <i>h</i>(<i>k</i>),
+then we try next at <i>A</i>[(<i>i</i>+1) mod <i>N</i>]. This process will
+continue until we find an empty bucket that can accept the new entry.</p>
+<p>For example, we want to add the following (phone, address) entries to an
+addressBook with size 101:</p>
+<ul>
+  <li>addressBook.add("869-1214", "8-128");</li>
+  <li>addressBook.add("869-8131", "9-101");</li>
+  <li>addressBook.add("869-4294", "8-156");</li>
+  <li>addressBook.add("869-2072", "9-101");</li>
+</ul>
+<p>Assume the hash function is <i>h</i>(<i>k</i>) = (<i>k</i> % 10000) % 101,
+all of the above keys (phone numbers) map to index 52. By linear probing, all
+entries will be put to indices 52 - 55.</p>
+<p>With this collision resolution strategy, we also need to change the
+implementation of the <i>get</i>, <i>put</i>, and <i>remove</i> methods.</p>
+<ul>
+  <li><font color="#0000FF">get(<i>k</i>)</font>: we
+    must examine consecutive buckets, starting from <i>A</i>[<i>h</i>(<i>k</i>)],
+    until we either find an entry with its key equal to <i>k</i> or we find an empty
+    bucket.</li>
+  
+  <li><font color="#0000FF">put(<i>k</i>, <i>v</i>)</font>: we
+    must examine consecutive buckets, starting from <i>A</i>[<i>h</i>(<i>k</i>)],
+    until we find an empty bucket or the hashtable is full.
+  </li>
+  
+  <li><font color="#0000FF">remove(<i>k</i>)</font>: There are two ways to
+    handle this method.
+  <ul>
+    <li>The simplest way is to place null in that cell in the hash table.
+    Problems?</li>
+    <li>The other way is to distinguish among three kinds of locations in a hash table:
+    <ul>
+    	<li><i>Occupied</i>: the location references an entry in the hash table</li>
+    	<li><i>Empty</i>: the location contains null</li>
+    	<li><i>Available</i>: the location's entry was removed from the hash 
+		table</li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+</ul>
+<p>Linear probing saves space, but it complicates removals. Colliding entries
+lump together, causing future collisions to cause a longer sequence of probes.</p>
+<p>Let's take a look at a specific implementation of <a href="http://www.csupomona.edu/~ftang/courses/CS240/lectures/code/Table.java">linear probing</a>.</p>
+<p>A potential problem with linear probing is <b>clustering</b>, where
+collisions that are resolved with linear probing cause groups of consecutive
+locations in the hash table to be occupied. Each group is called a <b>cluster</b>,
+and the phenomenon is known as <b>primary clustering</b>. Each cluster is a
+probe sequence that you must search when adding, removing, or retrieving a table
+entry. When few collisions occur, probe sequence remains short and can be
+searched rapidly. But during an addition, a collision within a cluster
+increases the size of the cluster. Bigger clusters mean longer search times. As
+the clusters grow in size, they can merge into even larger clusters, compounding
+the problem. You can avoid primary clustering by changing the probe sequence.</p>
+<p><b>Quadratic Probing</b>: This open addressing strategy involves iteratively
+trying the buckets <i>A</i>[(<i>i</i> + <i>f</i>(<i>j</i>)) mod <i>N</i>], for <i>j</i>
+= 0, 1, 2, ..., where <i>f</i>(<i>j</i>) = <i>j</i><sup>2</sup>, until finding
+an empty bucket. However, this approach creates its own kind of clustering,
+called <b> secondary clustering</b>, where the set of filled array cells
+"bounces" around the array in a fixed pattern. This secondary
+clustering is usually not a serious problem. This strategy may not
+find an empty slot even when the array is not full.</p>
+<p>An advantage of linear probing is that it can reach every location in the
+hash table. This property is important since it guarantees the success of the <i>put</i>
+operation when the hash table is not full. Quadratic probing can only guarantee
+a successful <i>put</i> operation when the hash table is at most half full and
+its size is a prime number.</p>
+<p><b>Double Hashing</b>: In this approach, we choose a secondary hash function,
+<i>h</i>', and if <i>h</i> maps some key <i>k</i> to a bucket <i>A</i>[<i>i</i>],
+with <i>i</i> = <i>h</i>(<i>k</i>), that is already occupied, then we 
+iteratively try the bucket <i>A</i>[(<i>i</i> + <i>f</i>(<i>j</i>)) mod <i>N</i>]
+next, for <i>j</i> = 1, 2, 3, ..., where <i>f</i>(<i>j</i>) = <i>j</i>*<i>h</i>'(<i>k</i>).
+In this scheme, the secondary hash function is not allowed to evaluate to zero;
+a common choice is <i>h</i>'(<i>k</i>) = <i>q</i> - (<i>k</i> mod <i>q</i>), for
+some prime number <i>q</i> &lt; <i>N</i>. Also <i>N</i> should be a prime.</p>
+<p>Double hashing uses a second hash function to compute these increments in a
+key-dependent way. Thus, double hashing avoids both primary and secondary
+clustering.</p>
+<p>The second hash function should:</p>
+<ul>
+  <li>Differ from the first hash function</li>
+  <li>Depend on the search key</li>
+  <li>Have a nonzero value</li>
+</ul>
+<p>Double hashing is able to reach every location in the hash table, if the size
+of the table is a prime number.</p>
+<p><b><u><span style="background-color: #FFFF00">Separate Chaining</span></u></b></p>
+<p>A simple and efficient way for dealing with collisions is to have each bucket
+<i>A</i>[<i>i</i>] store a list of (<i>k</i>, <i>v</i>) pairs with <i>h</i>(<i>k</i>)
+= <i>i</i>. For each fundamental map operation, involving a key <i>k</i>, the
+separate-chaining approach delegates the handling of this operation to the
+miniature list-based map stored at <i>A</i>[<i>h</i>(<i>k</i>)].</p>
+<ul>
+  <li><font color="#0000FF">put(<i>k</i>, <i>v</i>)</font>: it will scan this
+    list looking for an entry with a key equal to <i>k</i>; if it finds one, it replaces
+    its value with <i>v </i>(replace the old value), otherwise, it puts (<i>k</i>, <i>v</i>) at the end of this
+    list.</li>
+  <li><font color="#0000FF">get(<i>k</i>)</font>: it searches through this list
+    until it reaches the end or finds an entry with a key equal to <i>k</i>.</li>
+  <li><font color="#0000FF">remove(<i>k</i>)</font>: it performs a similar
+    search but additionally remove an entry after it is found.</li>
+</ul>
+<p>A good hash function will try to minimize collisions as much as possible,
+which will imply that most of our buckets are either empty or store just a
+single entry. Assume we use a good hash function to index the <i>n</i> entries
+of our map in a bucket array of capacity <i>N</i>, we expect each bucket to be 
+of size <i>n</i>/<i>N</i>. This value, called the <b>load factor</b> of the
+hash table, should be bounded by a small constant, preferably below 1. For,
+given a good hash function, the expected running time of operations <i>get</i>, <i>put</i>,
+and <i>remove</i> in a map implemented with a hash table that uses this function
+is O(<i>n</i>/<i>N</i>). Thus, we can implement these operations to run in <b> O(1)
+expected time</b>, provided that <i>n</i> is O(<i>N</i>).</p>
+<p>&nbsp;</p>
+      </td>
+  </tr>
+  <tr>
+    <td width="100%">
+<p>Java implementation provides a constant-time performance for the basic
+operations (get and put), assuming the hash function disperses the elements
+properly among the buckets. There are two parameters that affect the hash
+table's performance:&nbsp;</p>
+<ol>
+  <li><b>Initial capacity</b>: the number of buckets in the hash table, and the initial
+    capacity is simply the capacity at the time the hash table is created. The
+    default value is 16.</li>
+  <li><b>Load factor</b>: the measure of how full the hash table is allowed to get
+    before its capacity is automatically increased. When the number of entries
+    in the hash table exceeds the product of the load factor and the current
+    capacity, the capacity is roughly doubled by calling the "rehash"
+    method.</li>
+</ol>
+<p>As a general rule, the default load factor (<span style="background-color: #FFFF00">.75</span>) offers a good tradeoff
+between time and space costs. Higher values decrease the space overhead but
+increase the lookup cost (get and put methods). The expected number of entries
+in the map and its load factor should be taken into account when setting its
+initial capacity, so as to minimize the number of rehash operations. If the
+initial capacity is greater than the maximum number of entries divided by the
+load factor, then no rehash operations will ever occur.</p>
+<p>
+<code>
+<font color="#0000FF">    &nbsp; /* Returns a hash value for the specified 
+object.&nbsp;
+     */<br>
+    &nbsp;
+    static int <b>hash</b>(Object x) {<br>
+        &nbsp;&nbsp;&nbsp;
+        int h = x.hashCode();<br>&nbsp;&nbsp;&nbsp;
+        return h;<br>
+    &nbsp;
+    }<br><br>
+    
+    &nbsp; /* Returns index for hash code h.
+     */<br>
+    &nbsp;
+    static int <b>indexFor</b>(int h, int length) {<br>
+        &nbsp;&nbsp;&nbsp;
+        return h &amp; (length-1);<br>
+    &nbsp;
+    }<br><br>
+
+    &nbsp; /* Returns the value to which the specified key is mapped in this identity<br>
+     &nbsp;&nbsp;&nbsp;&nbsp; hash map, or <tt>null</tt> if the map contains no 
+mapping for this key.
+     */<br>
+    &nbsp;
+    public Object <b>get</b>(Object key) {<br>
+        &nbsp;&nbsp;&nbsp; int hash = hash(key);<br>
+        &nbsp;&nbsp;&nbsp;
+        int i = indexFor(hash, table.length);<br>
+        &nbsp;&nbsp;&nbsp;
+        Entry e = table[i]; <br>
+        &nbsp;&nbsp;&nbsp;
+        while (true) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            if (e == null)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                return e;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            if (e.hash == hash &amp;&amp; eq(k, e.key)) <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                return e.value;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            e = e.next;<br>
+        &nbsp;&nbsp;&nbsp;
+        }<br>
+    &nbsp;
+    }<br><br>
+
+    &nbsp;
+
+    /**<br>
+     &nbsp; * Associates the specified value with the specified key in this hash 
+table.<br>
+     &nbsp; * If the hash table previously contained a mapping for this key, the old<br>
+     &nbsp;
+     * value is replaced.<br>
+     &nbsp;
+     */<br>
+    &nbsp;
+    public Object <b>put</b>(Object key, Object value) {<br>
+        &nbsp;&nbsp;&nbsp;
+        int hash = hash(key);<br>
+        &nbsp;&nbsp;&nbsp;
+        int i = indexFor(hash, table.length);<br><br>
+
+        &nbsp;&nbsp;&nbsp;
+
+        for (Entry e = table[i]; e != null; e = e.next) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            if (e.hash == hash &amp;&amp; eq(k, e.key)) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Object oldValue = e.value;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                e.value = value;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                return oldValue;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            }<br>
+        &nbsp;&nbsp;&nbsp;
+        }<br>&nbsp;&nbsp;&nbsp;
+        addEntry(hash, k, value, i);<br>
+        &nbsp;&nbsp;&nbsp;
+        return null;<br>
+    &nbsp;
+    }<br><br>
+
+    &nbsp;
+
+    /**<br>
+     &nbsp;
+     * Add a new entry with the specified key, value and hash code to<br>
+     &nbsp;
+     * the specified bucket.  It is the responsibility of this <br>
+     &nbsp;
+     * method to resize the table if appropriate.<br>
+     &nbsp;
+     */<br>
+    &nbsp;
+    void <b>addEntry</b>(int hash, Object key, Object value, int bucketIndex) {<br>
+        &nbsp;&nbsp;&nbsp;
+        table[bucketIndex] = new Entry(hash, key, value, table[bucketIndex]);<br>
+        &nbsp;&nbsp;&nbsp;
+        if (size++ &gt;= threshold) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            resize(2 * table.length);<br>
+    &nbsp;
+    }<br><br>
+
+    &nbsp;
+
+    /**<br>
+     &nbsp; * Removes the mapping for this key from this hash table if present.<br>
+     &nbsp;
+     */<br>
+    &nbsp;
+    public Object <b>remove</b>(Object key) {<br>
+        &nbsp;&nbsp;&nbsp;
+        Entry e = removeEntryForKey(key);<br>
+        &nbsp;&nbsp;&nbsp;
+        return (e == null ? e : e.value);<br>
+    &nbsp;
+    }<br><br>
+
+    &nbsp;
+
+    /**<br>
+     &nbsp;
+     * Removes and returns the entry associated with the specified key<br>
+     &nbsp;
+     * in the Hash Table.  Returns null if the Hash Table contains no mapping<br>
+     &nbsp;
+     * for this key.<br>
+     &nbsp;
+     */<br>
+    &nbsp;
+    Entry <b>removeEntryForKey</b>(Object key) {<br>
+        &nbsp;&nbsp;&nbsp;
+        int hash = hash(key);<br>
+        &nbsp;&nbsp;&nbsp;
+        int i = indexFor(hash, table.length);<br>
+        &nbsp;&nbsp;&nbsp;
+        Entry prev = table[i];<br>
+        &nbsp;&nbsp;&nbsp;
+        Entry e = prev;<br><br>
+
+        &nbsp;&nbsp;&nbsp;
+
+        while (e != null) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Entry next = e.next;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            if (e.hash == hash &amp;&amp; eq(k, e.key)) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; size--;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                if (prev == e) <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    table[i] = next;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                else<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    prev.next = next;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                return e;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            prev = e;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            e = next;<br>
+        &nbsp;&nbsp;&nbsp;
+        }<br>
+        &nbsp;&nbsp;&nbsp;
+        return e;<br>
+    &nbsp;
+    }<br><br>
+    
+    &nbsp;
+    
+    /**<br>
+     &nbsp; * Rehashes the contents of this hash table into a new array with a<br>
+     &nbsp;
+     * larger capacity.  This method is called automatically when the<br>
+     &nbsp; * number of keys in this hash table reaches its threshold.<br>
+     &nbsp;
+     */<br>
+    &nbsp;
+    void <b>resize</b>(int newCapacity) {<br>
+        &nbsp;&nbsp;&nbsp;
+        Entry[] oldTable = table;<br>
+        &nbsp;&nbsp;&nbsp;
+        int oldCapacity = oldTable.length;<br>
+        &nbsp;&nbsp;&nbsp;
+        if (oldCapacity == MAXIMUM_CAPACITY) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            threshold = Integer.MAX_VALUE;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            return;<br>
+        &nbsp;&nbsp;&nbsp;
+        }<br><br>
+
+        &nbsp;&nbsp;&nbsp;
+
+        Entry[] newTable = new Entry[newCapacity];<br>
+        &nbsp;&nbsp;&nbsp;
+        transfer(newTable);<br>
+        &nbsp;&nbsp;&nbsp;
+        table = newTable;<br>
+        &nbsp;&nbsp;&nbsp;
+        threshold = (int)(newCapacity * loadFactor);<br>
+    &nbsp;
+    }<br><br>
+    
+    &nbsp;
+    
+    /** <br>
+     &nbsp;
+     * Transfer all entries from current table to newTable.<br>
+     &nbsp;
+     */<br>
+    &nbsp;
+    void <b>transfer</b>(Entry[] newTable) {<br>
+        &nbsp;&nbsp;&nbsp;
+        Entry[] src = table;<br>
+        &nbsp;&nbsp;&nbsp;
+        int newCapacity = newTable.length;<br>
+        &nbsp;&nbsp;&nbsp;
+        for (int j = 0; j &lt; src.length; j++) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Entry e = src[j];<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            if (e != null) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                src[j] = null;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                do {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Entry next = e.next;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    int i = indexFor(e.hash, newCapacity);  <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    e.next = newTable[i];<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    newTable[i] = e;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    e = next;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                } while (e != null);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            }<br>
+        &nbsp;&nbsp;&nbsp;
+        }<br>
+    &nbsp;
+    }<br><br>&nbsp; /* Each entry stores a (key, value) pair, it's hash value 
+and<br>&nbsp;&nbsp; * a reference to the next entry with the same hash value */<br>
+
+    &nbsp; class Entry {<br>
+        &nbsp;&nbsp;&nbsp;
+        Object key;<br>
+        &nbsp;&nbsp;&nbsp;
+        Object value;<br>
+        &nbsp;&nbsp;&nbsp;
+        final int hash;<br>
+        &nbsp;&nbsp;&nbsp;
+        Entry next;<br><br>
+
+        &nbsp;&nbsp;&nbsp;
+
+        /**<br>
+         &nbsp;&nbsp;&nbsp;
+         * Create new entry.<br>
+         &nbsp;&nbsp;&nbsp;
+         */<br>
+        &nbsp;&nbsp;&nbsp;
+        Entry(int h, Object k, Object v, Entry n) { <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            value = v; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            next = n;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            key = k;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            hash = h;<br>
+        &nbsp;&nbsp;&nbsp;
+        }<br>
+        &nbsp; }</font></code></p>
+<p>Separate chaining is simple, but requires additional memory outside the table
+and an auxiliary data structure&nbsp; - a list - to hold entries with colliding
+keys.</p>
+<p>The opening addressing schemes save some space over the separate chaining
+method, but they are not necessarily faster. In experimental and theoretical
+analyses, the chaining method is either competitive or faster than the other
+methods, depending on the load factor of the bucket array. So if memory space is
+not a major issue, the collision-handling method of choice seems to be separate
+chaining.</p>
+<p>&nbsp;</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" bgcolor="#CCE6FF"><font size="4"><b>Exercises</b></font></td>
+  </tr>
+
+  <tr>
+    <td width="100%">
+<ul>
+  <li>What would be a good hash code function for a vehicle identification
+    number, that is a string of numbers and letters of the form
+    "9X9XX99X999", where '9' represents a digit and 'X' represents a
+    letter?</li>
+	<li>What is the worst-case time for putting <i>n</i> entries in an initially
+    empty hash table, with collisions resolved by chaining? What is the best
+    case?</li>
+	<li>Draw the 11-entry hash table that results from using the hash function, h(<i>i</i>) =
+    (2<i>i</i> + 5) mod 11, to hash the keys 12, 44, 13, 88, 23, 94, 11, 39,
+      20, 16, and 5, assuming collisions are handled by (1) separate chaining,
+    (2) linear probing, (3) quadratic probing, and (4) double hashing with a
+    secondary hash function <i>h</i>'(<i>k</i>) = 7 - (<i>k</i> mod 7).</li>
+</ul>
+
+    </td>
+  </tr>
+</tbody></table>
+
+<hr>
+<i>Last updated: Mar. 2011</i>
+
+
+
+
+
+
+<div id="goog_qs_tidbit_box" class="notranslate"><div id="goog_qs-wrapper"><div id="goog_qs-box-toggle" title="Open Google Quick Scroll" style="background-image: url(chrome-extension://okanipcmceoeemlbjnmnbdibhgpbllgc/images/icon16x16.png);"></div><div id="goog_qs-box-help" title="Open the help and options page" style="background-image: url(chrome-extension://okanipcmceoeemlbjnmnbdibhgpbllgc/images/help.png);"></div><div id="goog_qs-box-info" style="background-image: url(chrome-extension://okanipcmceoeemlbjnmnbdibhgpbllgc/images/icon16x16.png);"><span class="goog_qs-nowrap">M<img>atches</span> <span class="goog_qs-nowrap">i<img>n</span> <span class="goog_qs-nowrap">p<img>age</span> <span class="goog_qs-nowrap">f<img>or</span> <span class="goog_qs-query"><span class="goog_qs-nowrap">h<img>ash</span> <span class="goog_qs-nowrap">c<img>ode</span> <span class="goog_qs-nowrap">c<img>ompression</span> <span class="goog_qs-nowrap">f<img>unctions</span></span></div><div id="goog_qs-box-tidbits"><div class="goog_qs-box-tidbit" title="Click to see this text in the page"><span class="goog_qs-nowrap">F<img>or</span> <span class="goog_qs-nowrap">i<img>f</span> <span class="goog_qs-nowrap">t<img>he</span> <em><span class="goog_qs-nowrap">h<img>ash</span> <span class="goog_qs-nowrap">c<img>odes</span></em> <span class="goog_qs-nowrap">o<img>f</span> <span class="goog_qs-nowrap">o<img>ur</span> <span class="goog_qs-nowrap">k<img>eys</span> <span class="goog_qs-nowrap">c<img>ause</span> <span class="goog_qs-nowrap">c<img>ollisions,</span> <span class="goog_qs-nowrap">t<img>hen</span> <span class="goog_qs-nowrap">t<img>here</span> <span class="goog_qs-nowrap">i<img>s</span> <span class="goog_qs-nowrap">n<img>o</span> <span class="goog_qs-nowrap">h<img>ope</span> <span class="goog_qs-nowrap">f<img>or</span> <span class="goog_qs-nowrap">o<img>ur</span> <em><span class="goog_qs-nowrap">c<img>ompression</span> <span class="goog_qs-nowrap">f<img>unction</span></em> <span class="goog_qs-nowrap">t<img>o</span> <span class="goog_qs-nowrap">a<img>void</span> <span class="goog_qs-nowrap">t<img>hem.</span> <span class="goog_qs-nowrap">I<img>n</span> <span class="goog_qs-nowrap">a<img>ddition,</span> <span class="goog_qs-nowrap">t<img>he</span> <span class="goog_qs-nowrap">s<img>ame</span> <span class="goog_qs-nowrap">k<img>eys</span> <span class="goog_qs-nowrap">s<img>hould</span> <span class="goog_qs-nowrap">r<img>esult</span> <span class="goog_qs-nowrap">i<img>n</span>&nbsp;... <span class="goog_qs-go">»</span></div></div><div id="goog_qs-box-bottom"><div class="goog_qs-more-matches" id="goog_qs-box-more-tidbits"><span class="goog_qs-nowrap">M<img>ore</span> <span class="goog_qs-nowrap">m<img>atches</span> <span class="goog_qs-go">»</span></div><div class="goog_qs-more-matches" id="goog_qs-box-fewer-tidbits" style="display:none"><span class="goog_qs-go">«</span>  <span class="goog_qs-nowrap">F<img>ewer</span> <span class="goog_qs-nowrap">m<img>atches</span></div></div><div style="clear:both"></div></div></div></body></html>

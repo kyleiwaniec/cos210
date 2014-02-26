@@ -1,0 +1,14 @@
+-d docs
+-use
+-splitindex
+-private
+-author
+-version
+-nodeprecated
+-nosince
+-source 1.7
+-linksource
+-sourcepath src
+-classpath lib/Debug.jar
+-link "file:///C:/Program Files/Java/jdk1.7.0_11/docs/api"
+-subpackages edu.mccc.cos210.car:edu.mccc.cos210.racecar
