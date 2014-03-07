@@ -1,0 +1,1 @@
+java -cp bin;lib/bugs.jar edu.mccc.cos210.bugworld.BugLooker
