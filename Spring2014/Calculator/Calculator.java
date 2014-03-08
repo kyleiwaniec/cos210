@@ -205,7 +205,7 @@ public class Calculator{
         // TODO: if f is of the form x.0, convert to int and do !
         if(f%1  == 0){
             int count = (int)f;
-            while(count != 1){
+            while(count != 2){
                 count--;
                 f *= count;
             }
