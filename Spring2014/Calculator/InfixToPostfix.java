@@ -98,7 +98,7 @@ public class InfixToPostfix{
             if (token.type == "OPERATOR") { 
                 processOperator((token.data).charAt(0));
             }else if(token.type == "SIN"){
-                
+                // TODO: This is kind of a weird place to put this... should be delegated to a more generic method.
                 String d = "";
                 Pattern pattern = Pattern.compile("([-]?[0-9.]+)");
                 Matcher matcher = pattern.matcher(token.data);
