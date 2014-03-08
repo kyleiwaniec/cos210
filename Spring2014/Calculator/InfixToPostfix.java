@@ -11,8 +11,8 @@ import java.util.regex.Matcher;
 
 public class InfixToPostfix{
     private Stack<Character> operatorStack;
-    private ArrayDeque<String> postfixDeque;
     private Stack<Double> operandStack;
+    private ArrayDeque<String> postfixDeque;
     private static final String OPERATORS = "()s^!/*+-";
     /** The precedence of the operators, matches order in OPERATORS. */
     private static final int[] PRECEDENCE = {4,4,4,3,3,2,2,1,1};
@@ -120,6 +120,40 @@ public class InfixToPostfix{
         return postfixDeque;
     }
 
+    private void processOperator(char op){
+        if (operatorStack.empty()) {
+            operatorStack.push(op);
+        } else {
+            char topOp = operatorStack.peek();
+            if(op == '('){
+                operatorStack.push(op);
+            }else if ((topOp == '(' || precedence(op) > precedence(topOp)) && op != ')') {
+                operatorStack.push(op);
+            }else if(op == ')'){
+                while(topOp != '('){
+                    operatorStack.pop();
+                    postfixDeque.add(String.valueOf(topOp));
+                    if (!operatorStack.empty()) {
+                        topOp = operatorStack.peek();
+                    }
+                }
+                operatorStack.pop(); // removes the right parenthesis
+            } else {
+                // Pop all stacked operators with equal
+                // or higher precedence than op.
+                while (!operatorStack.empty() && precedence(op) <= precedence(topOp) && topOp != '(') {
+                    operatorStack.pop();
+                    postfixDeque.add(String.valueOf(topOp));
+                    if (!operatorStack.empty()) {
+                        // Reset topOp.
+                        topOp = operatorStack.peek();
+                    }
+                }
+                operatorStack.push(op);
+            }
+        }
+    }
+
     public double evaluate(ArrayDeque<String> postfix){
          double result = 0.0;
          double first = 0.0;
@@ -168,42 +202,10 @@ public class InfixToPostfix{
         return operandStack.pop();
     }
     private double factorial(double f){
-        // TODO: implement.
+        // TODO: implement. hmm... what to do about floating point numbers?
         return f;
     }
-    private void processOperator(char op){
-        if (operatorStack.empty()) {
-            operatorStack.push(op);
-        } else {
-            char topOp = operatorStack.peek();
-            if(op == '('){
-                operatorStack.push(op);
-            }else if ((topOp == '(' || precedence(op) > precedence(topOp)) && op != ')') {
-                operatorStack.push(op);
-            }else if(op == ')'){
-                while(topOp != '('){
-                    operatorStack.pop();
-                    postfixDeque.add(String.valueOf(topOp));
-                    if (!operatorStack.empty()) {
-                        topOp = operatorStack.peek();
-                    }
-                }
-                operatorStack.pop(); // removes the right parenthesis
-            } else {
-                // Pop all stacked operators with equal
-                // or higher precedence than op.
-                while (!operatorStack.empty() && precedence(op) <= precedence(topOp) && topOp != '(') {
-                    operatorStack.pop();
-                    postfixDeque.add(String.valueOf(topOp));
-                    if (!operatorStack.empty()) {
-                        // Reset topOp.
-                        topOp = operatorStack.peek();
-                    }
-                }
-                operatorStack.push(op);
-            }
-        }
-    }
+    
     // private helper methods:
     private static BufferedReader stringToBR(String str){
         InputStream is = new ByteArrayInputStream(str.getBytes());
