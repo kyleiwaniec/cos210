@@ -45,8 +45,8 @@ public class InfixToPostfix{
         }
         @Override
         public String toString() {
-            //return String.format("(%s %s)", this.type, this.data);
-            return this.data;
+            return String.format("[%s : %s]", this.type, this.data);
+            //return this.data;
         }
     }
 
@@ -56,7 +56,7 @@ public class InfixToPostfix{
         ArrayDeque<Token> tokens = new ArrayDeque<Token>();
 
         // Lexer logic begins here
-        String  patterns = "(?<STARTNEGATE>^[-])|(?<OPERATOR>(?<![-*/+^])[-*/+^])|(?<LEFTPARENS>[(])|(?<RIGHTTPARENS>[)])|(?<SIN>(?!sin\\()([-]?[0-9.]+)(?=\\)))|(?<NUMBER>[-]?[0-9.]+)|(?<WHITESPACE>[\t\f\r\n]+)";
+        String  patterns = "(?<STARTNEGATE>^[-])|(?<OPERATOR>(?<![-*/+^])[-*/+^])|(?<LEFTPARENS>[(])|(?<RIGHTTPARENS>[)])|(?<SIN>sin\\(\\s*[-]?[0-9.\\s]+\\))|(?<NUMBER>[-]?[0-9.]+)|(?<WHITESPACE>[\t\f\r\n]+)";
 
         Pattern tokenPatterns = Pattern.compile(patterns);
         // Begin matching tokens
@@ -75,8 +75,8 @@ public class InfixToPostfix{
                 tokens.add(new Token("OPERATOR", matcher.group("RIGHTTPARENS")));
                 continue;
             } else if (matcher.group("SIN") != null) {
+                // TODO: extract number from sin(xx)
                 tokens.add(new Token("SIN", matcher.group("SIN")));
-                //matcher.find(matcher.start(matcher.end()));
                 continue;
             } else if (matcher.group("STARTNEGATE") != null) {
                 tokens.add(new Token("NUMBER", "-1"));
@@ -98,8 +98,7 @@ public class InfixToPostfix{
             if (token.type == "OPERATOR") { 
                 processOperator((token.data).charAt(0));
             }else if(token.type == "SIN"){
-                // TODO. for now just pretend it's a 0
-                //processOperator('+');
+                // NOT IMPLEMENTED. for now just pretend it's a 0
                 postfixDeque.add("0");
             }else{
                 postfixDeque.add(token.data);
