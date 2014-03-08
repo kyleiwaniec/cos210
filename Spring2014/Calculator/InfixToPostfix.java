@@ -13,9 +13,9 @@ public class InfixToPostfix{
     private Stack<Character> operatorStack;
     private ArrayDeque<String> postfixDeque;
     private Stack<Double> operandStack;
-    private static final String OPERATORS = "()^!/*+";
+    private static final String OPERATORS = "()^!/*+-";
     /** The precedence of the operators, matches order in OPERATORS. */
-    private static final int[] PRECEDENCE = {4,4,3,3,2,2,1};
+    private static final int[] PRECEDENCE = {4,4,3,3,2,2,1,1};
 
     // public InfixToPostfix(){
     
@@ -25,7 +25,6 @@ public class InfixToPostfix{
         new InfixToPostfix().doIt();
     }
     private void doIt() throws IOException {
-
         BufferedReader brinput = new BufferedReader(new InputStreamReader(System.in));
         String input = brinput.readLine();
 
@@ -35,22 +34,53 @@ public class InfixToPostfix{
         System.out.println("Result: "+result);
     }
 
-    public ArrayDeque<String> lex(String input) {
+
+
+    public static class Token {
+        public String type;
+        public String data;
+        public Token(String type, String data) {
+            this.type = type;
+            this.data = data;
+        }
+        @Override
+        public String toString() {
+            //return String.format("(%s %s)", this.type, this.data);
+            return this.data;
+        }
+    }
+
+
+    public ArrayDeque<Token> lex(String input) {
         // The tokens to return
-        ArrayDeque<String> tokens = new ArrayDeque<String>();
+        ArrayDeque<Token> tokens = new ArrayDeque<Token>();
 
         // Lexer logic begins here
-        String  patterns = "(?<NUMBER>[-]?[0-9.]+)|(?<OPERATOR>[()*/+^])|(?<WHITESPACE>[\t\f\r\n]+)";
+        String  patterns = "(?<STARTNEGATE>^[-])|(?<OPERATOR>(?<![-*/+^])[-*/+^])|(?<LEFTPARENS>[(])|(?<RIGHTTPARENS>[)])|(?<SIN>(?!sin\\()([-]?[0-9.]+)(?=\\)))|(?<NUMBER>[-]?[0-9.]+)|(?<WHITESPACE>[\t\f\r\n]+)";
 
         Pattern tokenPatterns = Pattern.compile(patterns);
         // Begin matching tokens
         Matcher matcher = tokenPatterns.matcher(input);
         while (matcher.find()) {
             if(matcher.group("NUMBER") != null){
-                tokens.add(matcher.group("NUMBER"));
+                tokens.add(new Token("NUMBER", matcher.group("NUMBER")));
                 continue;
             } else if (matcher.group("OPERATOR") != null) {
-                tokens.add(matcher.group("OPERATOR"));
+                tokens.add(new Token("OPERATOR", matcher.group("OPERATOR")));
+                continue;
+            } else if (matcher.group("LEFTPARENS") != null) {
+                tokens.add(new Token("OPERATOR", matcher.group("LEFTPARENS")));
+                continue;
+            } else if (matcher.group("RIGHTTPARENS") != null) {
+                tokens.add(new Token("OPERATOR", matcher.group("RIGHTTPARENS")));
+                continue;
+            } else if (matcher.group("SIN") != null) {
+                tokens.add(new Token("SIN", matcher.group("SIN")));
+                //matcher.find(matcher.start(matcher.end()));
+                continue;
+            } else if (matcher.group("STARTNEGATE") != null) {
+                tokens.add(new Token("NUMBER", "-1"));
+                tokens.add(new Token("OPERATOR", "*"));
                 continue;
             } else if (matcher.group("WHITESPACE") != null)
                 continue;
@@ -59,16 +89,20 @@ public class InfixToPostfix{
         return tokens;
     }
 
-    public ArrayDeque shunting(ArrayDeque<String> infix) throws IOException{
+    public ArrayDeque shunting(ArrayDeque<Token> infix) throws IOException{
         operatorStack = new Stack<Character>();
         postfixDeque = new ArrayDeque<String>();
 
         while (!infix.isEmpty()){
-            String token = infix.poll();
-            if (isOperator(token.charAt(0))) { // should also check that the length is 1.
-                processOperator(token.charAt(0));
+            Token token = infix.poll();
+            if (token.type == "OPERATOR") { 
+                processOperator((token.data).charAt(0));
+            }else if(token.type == "SIN"){
+                // TODO. for now just pretend it's a 0
+                //processOperator('+');
+                postfixDeque.add("0");
             }else{
-                postfixDeque.add(token);
+                postfixDeque.add(token.data);
             }
         }
         // Pop any remaining operators and
@@ -88,15 +122,14 @@ public class InfixToPostfix{
          operandStack = new Stack<Double>();
          while(!postfix.isEmpty()) {
             String c = postfix.poll(); //Retrieves and removes the head of the queue 
-            if(!isOperator(c.charAt(0))){
+            if(!isOperator(c.charAt(0)) || c.length() > 1){ // crappy hackyness - todo: fix.
                 operandStack.push(Double.parseDouble(c));
-                System.out.println("the double "+Double.parseDouble(c));
             }else if(c.charAt(0) == '+'){
                 first = operandStack.pop();
                 second = operandStack.pop();
                 result = first + second;
                 operandStack.push(result);
-            }else if(c.charAt(0) == '-'){
+            }else if(c.charAt(0) == '-' && c.length() == 1){ // crappy hackyness - todo: fix.
                 first = operandStack.pop();
                 second = operandStack.pop();
                 result = second - first;
