@@ -13,9 +13,9 @@ public class InfixToPostfix{
     private Stack<Character> operatorStack;
     private ArrayDeque<String> postfixDeque;
     private Stack<Double> operandStack;
-    private static final String OPERATORS = "()^!/*+-";
+    private static final String OPERATORS = "()s^!/*+-";
     /** The precedence of the operators, matches order in OPERATORS. */
-    private static final int[] PRECEDENCE = {4,4,3,3,2,2,1,1};
+    private static final int[] PRECEDENCE = {4,4,4,3,3,2,2,1,1};
 
     // public InfixToPostfix(){
     
@@ -49,7 +49,8 @@ public class InfixToPostfix{
             //return this.data;
         }
     }
-
+    // TODO: redo the whole lexer logic using "Scanner" phase to extract lexemes, then "Evaluator" phase to construct tokens.
+    // http://en.m.wikipedia.org/wiki/Lexical_analyzer
 
     public ArrayDeque<Token> lex(String input) {
         // The tokens to return
@@ -75,7 +76,6 @@ public class InfixToPostfix{
                 tokens.add(new Token("OPERATOR", matcher.group("RIGHTTPARENS")));
                 continue;
             } else if (matcher.group("SIN") != null) {
-                // TODO: extract number from sin(xx)
                 tokens.add(new Token("SIN", matcher.group("SIN")));
                 continue;
             } else if (matcher.group("STARTNEGATE") != null) {
@@ -98,8 +98,15 @@ public class InfixToPostfix{
             if (token.type == "OPERATOR") { 
                 processOperator((token.data).charAt(0));
             }else if(token.type == "SIN"){
-                // NOT IMPLEMENTED. for now just pretend it's a 0
-                postfixDeque.add("0");
+                
+                String d = "";
+                Pattern pattern = Pattern.compile("([-]?[0-9.]+)");
+                Matcher matcher = pattern.matcher(token.data);
+                while (matcher.find()) {
+                    d = matcher.group(1);
+                }
+                processOperator('s'); // 's' will be sin function.
+                postfixDeque.add(d);
             }else{
                 postfixDeque.add(token.data);
             }
@@ -151,6 +158,10 @@ public class InfixToPostfix{
             }else if(c.charAt(0) == '!'){
                 first = operandStack.pop();
                 result = factorial(first);
+                operandStack.push(result);
+            }else if(c.charAt(0) == 's'){
+                first = operandStack.pop();
+                result = Math.sin(first);
                 operandStack.push(result);
             }
         }
